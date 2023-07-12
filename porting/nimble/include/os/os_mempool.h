@@ -148,27 +148,40 @@ struct os_mempool *os_mempool_info_get_next(struct os_mempool *,
  * the memory pool.
  */
 #if MYNEWT_VAL(OS_MEMPOOL_GUARD)
-/*
- * Leave extra 4 bytes of guard area at the end.
- */
-#define OS_MEMPOOL_BLOCK_SZ(sz) ((sz) + sizeof(os_membuf_t))
+//{
+    /*
+     * Leave extra 4 bytes of guard area at the end.
+     */
+    #define OS_MEMPOOL_BLOCK_SZ(sz) ((sz) + sizeof(os_membuf_t))
+//}
 #else
-#define OS_MEMPOOL_BLOCK_SZ(sz) (sz)
+//{
+    #define OS_MEMPOOL_BLOCK_SZ(sz) (sz)
+//}
 #endif
+
 #if (OS_ALIGNMENT == 4)
-typedef uint32_t os_membuf_t;
+//{
+    typedef uint32_t os_membuf_t;
+//}
 #elif (OS_ALIGNMENT == 8)
-typedef uint64_t os_membuf_t;
+//{
+    typedef uint64_t os_membuf_t;
+//}
 #elif (OS_ALIGNMENT == 16)
-typedef __uint128_t os_membuf_t;
+//{
+    typedef __uint128_t os_membuf_t;
+//}
 #else
-#error "Unhandled `OS_ALIGNMENT` for `os_membuf_t`"
+//{
+    #error "Unhandled `OS_ALIGNMENT` for `os_membuf_t`"
+//}
 #endif /* OS_ALIGNMENT == * */
+
 #define OS_MEMPOOL_SIZE(n,blksize)      ((((blksize) + ((OS_ALIGNMENT)-1)) / (OS_ALIGNMENT)) * (n))
 
 /** Calculates the number of bytes required to initialize a memory pool. */
-#define OS_MEMPOOL_BYTES(n,blksize)     \
-    (sizeof (os_membuf_t) * OS_MEMPOOL_SIZE((n), (blksize)))
+#define OS_MEMPOOL_BYTES(n,blksize)  ( sizeof(os_membuf_t) * OS_MEMPOOL_SIZE((n), (blksize)))
 
 /**
  * Initialize a memory pool.
@@ -181,8 +194,7 @@ typedef __uint128_t os_membuf_t;
  *
  * @return os_error_t
  */
-os_error_t os_mempool_init(struct os_mempool *mp, uint16_t blocks,
-                           uint32_t block_size, void *membuf, char *name);
+os_error_t os_mempool_init(struct os_mempool *mp, uint16_t blocks, uint32_t block_size, void *membuf, char *name);
 
 /**
  * Initializes an extended memory pool.  Extended attributes (e.g., callbacks)
@@ -197,8 +209,7 @@ os_error_t os_mempool_init(struct os_mempool *mp, uint16_t blocks,
  *
  * @return os_error_t
  */
-os_error_t os_mempool_ext_init(struct os_mempool_ext *mpe, uint16_t blocks,
-                               uint32_t block_size, void *membuf, char *name);
+os_error_t os_mempool_ext_init(struct os_mempool_ext *mpe, uint16_t blocks, uint32_t block_size, void *membuf, char *name);
 
 /**
  * Removes the specified mempool from the list of initialized mempools.
