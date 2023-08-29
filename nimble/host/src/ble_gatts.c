@@ -26,6 +26,10 @@
 #include "host/ble_store.h"
 #include "ble_hs_priv.h"
 
+void* os_malloc ( size_t qnt );
+void* os_realloc( void* ptr, size_t qnt );
+void  os_free   ( void* ptr  );
+
 #define BLE_GATTS_INCLUDE_SZ    6
 #define BLE_GATTS_CHR_MAX_SZ    19
 
@@ -1233,7 +1237,7 @@ void ble_gatts_connection_broken(uint16_t conn_handle)
 
 static void ble_gatts_free_svc_defs(void)
 {
-  free(ble_gatts_svc_defs);
+  os_free(ble_gatts_svc_defs);
   ble_gatts_svc_defs = NULL;
   ble_gatts_num_svc_defs = 0;
 }
@@ -1245,10 +1249,10 @@ static void ble_gatts_free_svc_defs(void)
 
 static void ble_gatts_free_mem(void)
 {
-  free(ble_gatts_clt_cfg_mem);
+  os_free(ble_gatts_clt_cfg_mem);
   ble_gatts_clt_cfg_mem = NULL;
 
-  free(ble_gatts_svc_entries);
+  os_free(ble_gatts_svc_entries);
   ble_gatts_svc_entries = NULL;
 }
 
@@ -1282,7 +1286,7 @@ int ble_gatts_start(void)
 
   if( ble_hs_max_client_configs > 0 )
     {
-      ble_gatts_clt_cfg_mem = malloc(OS_MEMPOOL_BYTES(ble_hs_max_client_configs, sizeof(struct ble_gatts_clt_cfg)));
+      ble_gatts_clt_cfg_mem = os_malloc(OS_MEMPOOL_BYTES(ble_hs_max_client_configs, sizeof(struct ble_gatts_clt_cfg)));
 
       if( ble_gatts_clt_cfg_mem == NULL )
         {
@@ -1293,7 +1297,7 @@ int ble_gatts_start(void)
 
   if( ble_hs_max_services > 0 )
     {
-      ble_gatts_svc_entries = malloc(ble_hs_max_services * sizeof * ble_gatts_svc_entries);
+      ble_gatts_svc_entries = os_malloc(ble_hs_max_services * sizeof * ble_gatts_svc_entries);
         
       if( ble_gatts_svc_entries == NULL )
         {
@@ -2167,7 +2171,7 @@ int ble_gatts_add_svcs(const struct ble_gatt_svc_def *svcs)
       goto done;
     }
 
-  p = realloc(ble_gatts_svc_defs, (ble_gatts_num_svc_defs + 1) * sizeof *ble_gatts_svc_defs);
+  p = os_realloc(ble_gatts_svc_defs, (ble_gatts_num_svc_defs + 1) * sizeof *ble_gatts_svc_defs);
 
   if( p == NULL ) 
     {

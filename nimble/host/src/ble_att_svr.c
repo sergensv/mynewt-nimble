@@ -26,6 +26,9 @@
 #include "host/ble_uuid.h"
 #include "ble_hs_priv.h"
 
+void* os_malloc( size_t qnt );
+void  os_free  ( void* ptr  );
+
 #if NIMBLE_BLE_CONNECT
 /**
  * ATT server - Attribute Protocol
@@ -2708,7 +2711,7 @@ ble_att_svr_reset(void)
 static void
 ble_att_svr_free_start_mem(void)
 {
-    free(ble_att_svr_entry_mem);
+    os_free(ble_att_svr_entry_mem);
     ble_att_svr_entry_mem = NULL;
 }
 
@@ -2719,23 +2722,24 @@ ble_att_svr_start(void)
 
     ble_att_svr_free_start_mem();
 
-    if (ble_hs_max_attrs > 0) {
-        ble_att_svr_entry_mem = malloc(
-            OS_MEMPOOL_BYTES(ble_hs_max_attrs,
-                             sizeof (struct ble_att_svr_entry)));
-        if (ble_att_svr_entry_mem == NULL) {
+    if (ble_hs_max_attrs > 0) 
+      {
+        ble_att_svr_entry_mem = os_malloc( OS_MEMPOOL_BYTES(ble_hs_max_attrs, sizeof (struct ble_att_svr_entry)));
+        
+        if( ble_att_svr_entry_mem == NULL ) 
+          {
             rc = BLE_HS_ENOMEM;
             goto err;
-        }
+          }
 
-        rc = os_mempool_init(&ble_att_svr_entry_pool, ble_hs_max_attrs,
-                             sizeof (struct ble_att_svr_entry),
-                             ble_att_svr_entry_mem, "ble_att_svr_entry_pool");
-        if (rc != 0) {
+        rc = os_mempool_init(&ble_att_svr_entry_pool, ble_hs_max_attrs, sizeof (struct ble_att_svr_entry), ble_att_svr_entry_mem, "ble_att_svr_entry_pool");
+        
+        if( rc != 0 ) 
+          {
             rc = BLE_HS_EOS;
             goto err;
-        }
-    }
+          }
+      }
 
     return 0;
 

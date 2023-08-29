@@ -24,6 +24,9 @@
 #include "ble_hs_test.h"
 #include "ble_hs_test_util.h"
 
+void* os_malloc( size_t qnt );
+void  os_free  ( void* ptr  );
+
 #define BLE_HCI_CONN_UPDATE_LEN             (14)
 
 #define BLE_L2CAP_TEST_PSM                   (90)
@@ -54,21 +57,20 @@ ble_l2cap_test_util_init(void)
     int rc;
 
     if (test_sdu_coc_mem) {
-        free(test_sdu_coc_mem);
+        os_free(test_sdu_coc_mem);
     }
 
     /* For testing we want to support all the available channels */
-    test_sdu_coc_mem = malloc(
-        OS_MEMPOOL_BYTES(BLE_L2CAP_TEST_COC_BUF_COUNT,BLE_L2CAP_TEST_COC_MTU));
+    test_sdu_coc_mem = os_malloc( OS_MEMPOOL_BYTES(BLE_L2CAP_TEST_COC_BUF_COUNT,BLE_L2CAP_TEST_COC_MTU) );
+    
     assert(test_sdu_coc_mem != NULL);
 
-    rc = os_mempool_init(&sdu_coc_mbuf_mempool, BLE_L2CAP_TEST_COC_BUF_COUNT,
-                         BLE_L2CAP_TEST_COC_MTU, test_sdu_coc_mem,
-                         "test_coc_sdu_pool");
+    rc = os_mempool_init(&sdu_coc_mbuf_mempool, BLE_L2CAP_TEST_COC_BUF_COUNT, BLE_L2CAP_TEST_COC_MTU, test_sdu_coc_mem, "test_coc_sdu_pool");
+    
     assert(rc == 0);
 
-    rc = os_mbuf_pool_init(&sdu_os_mbuf_pool, &sdu_coc_mbuf_mempool,
-                           BLE_L2CAP_TEST_COC_MTU, BLE_L2CAP_TEST_COC_BUF_COUNT);
+    rc = os_mbuf_pool_init(&sdu_os_mbuf_pool, &sdu_coc_mbuf_mempool, BLE_L2CAP_TEST_COC_MTU, BLE_L2CAP_TEST_COC_BUF_COUNT);
+
     assert(rc == 0);
 
 }
@@ -760,8 +762,7 @@ static uint16_t ble_l2cap_calculate_credits(uint16_t mtu, uint16_t mps)
     return credits;
 }
 
-static void
-ble_l2cap_test_coc_connect_multi(struct test_data *t)
+static void ble_l2cap_test_coc_connect_multi(struct test_data *t)
 {
     struct ble_l2cap_sig_credit_base_connect_req *req;
     struct ble_l2cap_sig_credit_base_connect_rsp *rsp;
@@ -771,60 +772,61 @@ ble_l2cap_test_coc_connect_multi(struct test_data *t)
     int rc;
     int i;
 
-    req = malloc(sizeof(*req) + (sizeof(uint16_t) * t->num));
-    rsp = malloc(sizeof(*rsp) + (sizeof(uint16_t) * t->num));
+    req = os_malloc(sizeof(*req) + (sizeof(uint16_t) * t->num));
+    rsp = os_malloc(sizeof(*rsp) + (sizeof(uint16_t) * t->num));
 
     ble_l2cap_test_util_init();
 
-    ble_l2cap_test_util_create_conn(2, ((uint8_t[]) {1, 2, 3, 4, 5, 6}),
-                                    ble_l2cap_test_util_conn_cb, NULL);
+    ble_l2cap_test_util_create_conn(2, ((uint8_t[]) {1, 2, 3, 4, 5, 6}), ble_l2cap_test_util_conn_cb, NULL);
 
-    for (i = 0; i < t->num; i++) {
+    for (i = 0; i < t->num; i++) 
+      {
         sdu_rx[i] = os_mbuf_get_pkthdr(&sdu_os_mbuf_pool, 0);
         assert(sdu_rx[i] != NULL);
-    }
+      }
 
-    rc = ble_l2cap_sig_ecoc_connect(2, t->psm, t->mtu, t->num, sdu_rx,
-                                   ble_l2cap_test_event, t);
+    rc = ble_l2cap_sig_ecoc_connect(2, t->psm, t->mtu, t->num, sdu_rx, ble_l2cap_test_event, t);
+
     TEST_ASSERT_FATAL(rc == ev->early_error);
 
-    if (rc != 0) {
-        for (i = 0; i< t->num; i++) {
+    if (rc != 0) 
+      {
+        for (i = 0; i< t->num; i++) 
+          {
             rc = os_mbuf_free_chain(sdu_rx[i]);
             TEST_ASSERT_FATAL(rc == 0);
-        }
+          }
 
         return;
-    }
+      }
 
-    req->credits = htole16(
-                        ble_l2cap_calculate_credits(t->mtu,
-                                                    MYNEWT_VAL(BLE_L2CAP_COC_MPS)));
+    req->credits = htole16( ble_l2cap_calculate_credits(t->mtu, MYNEWT_VAL(BLE_L2CAP_COC_MPS)) );
     req->mps = htole16(MYNEWT_VAL(BLE_L2CAP_COC_MPS));
     req->mtu = htole16(t->mtu);
     req->psm = htole16(t->psm);
-    for (i = 0; i < t->num; i++) {
+    
+    for (i = 0; i < t->num; i++) 
+      {
         req->scids[i] = htole16(current_cid + i);
-    }
+      }
 
     /* Ensure an update request got sent. */
-    id = ble_hs_test_util_verify_tx_l2cap_sig(
-                                            BLE_L2CAP_SIG_OP_CREDIT_CONNECT_REQ,
-                                            req, sizeof(*req) + t->num * sizeof(uint16_t));
+    id = ble_hs_test_util_verify_tx_l2cap_sig( BLE_L2CAP_SIG_OP_CREDIT_CONNECT_REQ, req, sizeof(*req) + t->num * sizeof(uint16_t));
 
     /* Use some different parameters for peer. Just keep mtu same for testing
      * only*/
     rsp->credits = htole16(10);
-    for (i = 0; i < t->num; i++) {
+    
+    for (i = 0; i < t->num; i++) 
+      {
         rsp->dcids[i] = htole16(current_cid + i);
-    }
+      }
     rsp->mps = htole16(MYNEWT_VAL(BLE_L2CAP_COC_MPS) + 16);
     rsp->mtu = htole16(t->mtu);
     rsp->result = htole16(ev->l2cap_status);
 
-    rc = ble_hs_test_util_inject_rx_l2cap_sig(2,
-                                              BLE_L2CAP_SIG_OP_CREDIT_CONNECT_RSP,
-                                              id, rsp, sizeof(*rsp) + t->num * sizeof(uint16_t));
+    rc = ble_hs_test_util_inject_rx_l2cap_sig(2, BLE_L2CAP_SIG_OP_CREDIT_CONNECT_RSP, id, rsp, sizeof(*rsp) + t->num * sizeof(uint16_t));
+    
     TEST_ASSERT(rc == 0);
 
     /* Ensure callback got called. */
@@ -843,34 +845,30 @@ ble_l2cap_test_coc_connect(struct test_data *t)
 
     ble_l2cap_test_util_init();
 
-    ble_l2cap_test_util_create_conn(2, ((uint8_t[]){1,2,3,4,5,6}),
-                                    ble_l2cap_test_util_conn_cb, NULL);
+    ble_l2cap_test_util_create_conn(2, ((uint8_t[]){1,2,3,4,5,6}), ble_l2cap_test_util_conn_cb, NULL);
 
     sdu_rx = os_mbuf_get_pkthdr(&sdu_os_mbuf_pool, 0);
     assert(sdu_rx != NULL);
 
-    rc = ble_l2cap_sig_coc_connect(2, t->psm, t->mtu, sdu_rx,
-                                   ble_l2cap_test_event, t);
+    rc = ble_l2cap_sig_coc_connect(2, t->psm, t->mtu, sdu_rx, ble_l2cap_test_event, t);
+    
     TEST_ASSERT_FATAL(rc == ev->early_error);
 
-    if (rc != 0) {
+    if (rc != 0) 
+      {
         rc = os_mbuf_free_chain(sdu_rx);
         TEST_ASSERT_FATAL(rc == 0);
         return;
-    }
+      }
 
-    req.credits = htole16(
-                        ble_l2cap_calculate_credits(t->mtu,
-                                                    MYNEWT_VAL(BLE_L2CAP_COC_MPS)));
+    req.credits = htole16( ble_l2cap_calculate_credits(t->mtu, MYNEWT_VAL(BLE_L2CAP_COC_MPS)));
     req.mps = htole16(MYNEWT_VAL(BLE_L2CAP_COC_MPS));
     req.mtu = htole16(t->mtu);
     req.psm = htole16(t->psm);
     req.scid = htole16(current_cid);
 
     /* Ensure an update request got sent. */
-    id = ble_hs_test_util_verify_tx_l2cap_sig(
-                                            BLE_L2CAP_SIG_OP_LE_CREDIT_CONNECT_REQ,
-                                            &req, sizeof(req));
+    id = ble_hs_test_util_verify_tx_l2cap_sig( BLE_L2CAP_SIG_OP_LE_CREDIT_CONNECT_REQ, &req, sizeof(req));
 
     /* Use some different parameters for peer. Just keep mtu same for testing
      * only*/
@@ -880,9 +878,7 @@ ble_l2cap_test_coc_connect(struct test_data *t)
     rsp.mtu = htole16(t->mtu);
     rsp.result = htole16(ev->l2cap_status);
 
-    rc = ble_hs_test_util_inject_rx_l2cap_sig(2,
-                                              BLE_L2CAP_SIG_OP_LE_CREDIT_CONNECT_RSP,
-                                              id, &rsp, sizeof(rsp));
+    rc = ble_hs_test_util_inject_rx_l2cap_sig(2, BLE_L2CAP_SIG_OP_LE_CREDIT_CONNECT_RSP, id, &rsp, sizeof(rsp));
     TEST_ASSERT(rc == 0);
 
     /* Ensure callback got called. */

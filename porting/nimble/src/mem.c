@@ -31,7 +31,7 @@ mem_malloc_mempool_gen(uint16_t num_blocks, uint32_t block_size,
     block_size = OS_ALIGN(block_size, OS_ALIGNMENT);
 
     if (num_blocks > 0) {
-        *out_buf = malloc(OS_MEMPOOL_BYTES(num_blocks, block_size));
+        *out_buf = os_malloc(OS_MEMPOOL_BYTES(num_blocks, block_size));
         if (*out_buf == NULL) {
             return OS_ENOMEM;
         }
@@ -72,7 +72,7 @@ mem_malloc_mempool(struct os_mempool *mempool, uint16_t num_blocks,
 
     rc = os_mempool_init(mempool, num_blocks, block_size, buf, name);
     if (rc != 0) {
-        free(buf);
+        os_free(buf);
         return rc;
     }
 
@@ -113,7 +113,7 @@ mem_malloc_mempool_ext(struct os_mempool_ext *mpe, uint16_t num_blocks,
 
     rc = os_mempool_ext_init(mpe, num_blocks, block_size, buf, name);
     if (rc != 0) {
-        free(buf);
+        os_free(buf);
         return rc;
     }
 
@@ -160,7 +160,7 @@ mem_malloc_mbuf_pool(struct os_mempool *mempool,
 
     rc = os_mbuf_pool_init(mbuf_pool, mempool, block_size, num_blocks);
     if (rc != 0) {
-        free(buf);
+        os_free(buf);
         return rc;
     }
 

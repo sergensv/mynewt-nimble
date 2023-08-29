@@ -30,6 +30,10 @@
 #include "nimble/nimble_port.h"
 #endif
 
+void* os_malloc( size_t qnt );
+void  os_free  ( void* ptr  );
+
+
 #define BLE_HS_HCI_EVT_COUNT    (MYNEWT_VAL(BLE_TRANSPORT_EVT_COUNT) + \
                                  MYNEWT_VAL(BLE_TRANSPORT_EVT_DISCARDABLE_COUNT))
 
