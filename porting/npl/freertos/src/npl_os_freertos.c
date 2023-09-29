@@ -59,6 +59,32 @@ struct ble_npl_event * npl_freertos_eventq_get(struct ble_npl_eventq *evq, ble_n
     return ev;
 }
 
+struct ble_npl_event * npl_freertos_eventq_get_qansw(struct ble_npl_eventq *evq, ble_npl_time_t tmo, uint32_t *q_answ)
+{
+    struct ble_npl_event *ev = NULL;
+    BaseType_t woken;
+    BaseType_t ret;
+
+    if (in_isr()) 
+      {
+        assert(tmo == 0);
+
+        ret = xQueueReceiveFromISR(evq->q, &ev, &woken);
+        
+        portYIELD_FROM_ISR(woken);
+      } 
+    else 
+      {
+        ret = xQueueReceive(evq->q, &ev, tmo);
+      }
+    
+    assert(ret == pdPASS || ret == errQUEUE_EMPTY);
+
+    *q_answ = ret;
+
+    if (ev) 
+      {  ev->queued = false;  }
+
     return ev;
 }
 
