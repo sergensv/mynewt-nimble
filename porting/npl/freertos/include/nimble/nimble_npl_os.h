@@ -91,8 +91,7 @@ ble_npl_eventq_init(struct ble_npl_eventq *evq)
     evq->q = xQueueCreate(32, sizeof(struct ble_npl_eventq *));
 }
 
-static inline struct ble_npl_event *
-ble_npl_eventq_get(struct ble_npl_eventq *evq, ble_npl_time_t tmo)
+static inline struct ble_npl_event *ble_npl_eventq_get(struct ble_npl_eventq *evq, ble_npl_time_t tmo)
 {
     return npl_freertos_eventq_get(evq, tmo);
 }

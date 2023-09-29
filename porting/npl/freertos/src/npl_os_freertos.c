@@ -22,6 +22,9 @@
 #include <string.h>
 #include "nimble/nimble_npl.h"
 
+
+
+
 static inline bool
 in_isr(void)
 {
@@ -29,25 +32,32 @@ in_isr(void)
     return (SCB->ICSR & SCB_ICSR_VECTACTIVE_Msk) != 0;
 }
 
-struct ble_npl_event *
-npl_freertos_eventq_get(struct ble_npl_eventq *evq, ble_npl_time_t tmo)
+struct ble_npl_event * npl_freertos_eventq_get(struct ble_npl_eventq *evq, ble_npl_time_t tmo)
 {
     struct ble_npl_event *ev = NULL;
     BaseType_t woken;
     BaseType_t ret;
 
-    if (in_isr()) {
+    if (in_isr()) 
+      {
         assert(tmo == 0);
+
         ret = xQueueReceiveFromISR(evq->q, &ev, &woken);
+        
         portYIELD_FROM_ISR(woken);
-    } else {
+      } 
+    else 
+      {
         ret = xQueueReceive(evq->q, &ev, tmo);
-    }
+      }
+    
     assert(ret == pdPASS || ret == errQUEUE_EMPTY);
 
-    if (ev) {
-        ev->queued = false;
-    }
+    if (ev) 
+      {  ev->queued = false;  }
+
+    return ev;
+}
 
     return ev;
 }

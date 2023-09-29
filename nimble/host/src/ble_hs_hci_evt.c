@@ -248,37 +248,42 @@ ble_hs_hci_evt_enc_key_refresh(uint8_t event_code, const void *data,
 }
 #endif
 
-static int
-ble_hs_hci_evt_num_completed_pkts(uint8_t event_code, const void *data,
-                                  unsigned int len)
+static int ble_hs_hci_evt_num_completed_pkts(uint8_t event_code, const void *data, unsigned int len)
 {
     const struct ble_hci_ev_num_comp_pkts *ev = data;
+
     struct ble_hs_conn *conn;
+    
     uint16_t num_pkts;
+    
     int i;
 
-    if (len != sizeof(*ev) + (ev->count * sizeof(ev->completed[0]))) {
+    if(len != sizeof(*ev) + (ev->count * sizeof(ev->completed[0]))) 
+      {
         return BLE_HS_ECONTROLLER;
-    }
+      }
 
-    for (i = 0; i < ev->count; i++) {
+    for (i = 0; i < ev->count; i++) 
+      {
         num_pkts = le16toh(ev->completed[i].packets);
 
-        if (num_pkts > 0) {
+        if( num_pkts > 0 )
+          {
             ble_hs_lock();
-            conn = ble_hs_conn_find(le16toh(ev->completed[i].handle));
-            if (conn != NULL) {
-                if (conn->bhc_outstanding_pkts < num_pkts) {
-                    ble_hs_sched_reset(BLE_HS_ECONTROLLER);
-                } else {
-                    conn->bhc_outstanding_pkts -= num_pkts;
-                }
+            //{
+                conn = ble_hs_conn_find(le16toh(ev->completed[i].handle));
 
-                ble_hs_hci_add_avail_pkts(num_pkts);
-            }
+                if( conn != NULL )
+                  {
+                    if (conn->bhc_outstanding_pkts < num_pkts) {  ble_hs_sched_reset(BLE_HS_ECONTROLLER);  } 
+                    else                                       {  conn->bhc_outstanding_pkts -= num_pkts;  }
+
+                    ble_hs_hci_add_avail_pkts(num_pkts);
+                  }
+            //}
             ble_hs_unlock();
-        }
-    }
+          }
+      }
 
     /* If any transmissions have stalled, wake them up now. */
     ble_hs_wakeup_tx();
@@ -898,23 +903,37 @@ ble_hs_hci_evt_le_phy_update_complete(uint8_t subevent, const void *data,
 }
 #endif
 
-int
-ble_hs_hci_evt_process(struct ble_hci_ev *ev)
+
+extern void Log( const char *label, const char *path, const char *msg, ...);       // Support %d, %D, %u, %U, %x, %X, %c, %C, %s, %S, #00000000
+
+int ble_hs_hci_evt_process(struct ble_hci_ev *ev)
 {
     const struct ble_hs_hci_evt_dispatch_entry *entry;
+    
     int rc;
 
     /* Count events received */
     STATS_INC(ble_hs_stats, hci_event);
 
-
     entry = ble_hs_hci_evt_dispatch_find(ev->opcode);
-    if (entry == NULL) {
+
+    if (entry == NULL) 
+      {
         STATS_INC(ble_hs_stats, hci_unknown_event);
         rc = BLE_HS_ENOTSUP;
-    } else {
+
+        Log("HS_HCI", "ble_hs_hci_evt_process","Unexpected event");
+      } 
+    else 
+      {
+        if( ev->opcode != 0x13 )
+          Log("HS_HCI", "ble_hs_hci_evt_process","event callback = %X, ev->opcode %X", (uint32_t)entry->cb, (uint32_t)ev->opcode );
+
         rc = entry->cb(ev->opcode, ev->data, ev->length);
-    }
+
+        if( rc )
+          Log("HS_HCI", "ble_hs_hci_evt_process","rc = %d", rc );
+      }
 
     ble_transport_free(ev);
 
