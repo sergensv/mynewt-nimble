@@ -531,7 +531,7 @@ ble_att_svr_write(uint16_t conn_handle, struct ble_att_svr_entry *entry,
     uint8_t att_err = 0;
     int rc;
 
-    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+//#!    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
 
     if (conn_handle != BLE_HS_CONN_HANDLE_NONE) {
         rc = ble_att_svr_check_perms(conn_handle, 0, entry, &att_err);

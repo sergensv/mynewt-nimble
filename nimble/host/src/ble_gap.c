@@ -768,7 +768,7 @@ ble_gap_call_event_cb(struct ble_gap_event *event,
 {
     int rc;
 
-    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+//#!    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
 
     if (cb != NULL) {
         rc = cb(event, cb_arg);

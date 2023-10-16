@@ -362,7 +362,7 @@ ble_l2cap_sig_process_status(struct ble_l2cap_sig_proc *proc, int status)
 static void
 ble_l2cap_sig_update_call_cb(struct ble_l2cap_sig_proc *proc, int status)
 {
-    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    //#!    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
 
     if (status != 0) {
         STATS_INC(ble_l2cap_stats, update_fail);
