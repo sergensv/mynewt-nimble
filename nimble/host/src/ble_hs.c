@@ -37,7 +37,7 @@ void  os_free  ( void* ptr  );
 #define BLE_HS_HCI_EVT_COUNT    (MYNEWT_VAL(BLE_TRANSPORT_EVT_COUNT) + \
                                  MYNEWT_VAL(BLE_TRANSPORT_EVT_DISCARDABLE_COUNT))
 
-static void ble_hs_event_rx_hci_ev(struct ble_npl_event *ev);
+void ble_hs_event_rx_hci_ev(struct ble_npl_event *ev);
 #if NIMBLE_BLE_CONNECT
 static void ble_hs_event_tx_notify(struct ble_npl_event *ev);
 #endif
@@ -193,14 +193,18 @@ ble_hs_unlock_nested(void)
 void
 ble_hs_lock(void)
 {
-    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
-#if MYNEWT_VAL(BLE_HS_DEBUG)
-    if (!ble_npl_os_started()) {
-        BLE_HS_DBG_ASSERT(!ble_hs_dbg_mutex_locked);
-    }
-#endif
+//#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
 
-    ble_hs_lock_nested();
+  #if MYNEWT_VAL(BLE_HS_DEBUG)
+  //{
+      if (!ble_npl_os_started())
+        {
+          BLE_HS_DBG_ASSERT(!ble_hs_dbg_mutex_locked);
+        }
+  //}
+  #endif
+
+  ble_hs_lock_nested();
 }
 
 /**
@@ -388,8 +392,7 @@ ble_hs_reset(void)
  * Called when the host timer expires.  Handles unresponsive timeouts and
  * periodic retries in case of resource shortage.
  */
-static void
-ble_hs_timer_exp(struct ble_npl_event *ev)
+void ble_hs_timer_exp(struct ble_npl_event *ev)
 {
     int32_t ticks_until_next;
 
@@ -487,8 +490,7 @@ ble_hs_sched_start(void)
 #endif
 }
 
-static void
-ble_hs_event_rx_hci_ev(struct ble_npl_event *ev)
+void ble_hs_event_rx_hci_ev(struct ble_npl_event *ev)
 {
     struct ble_hci_ev *hci_ev;
     int rc;
@@ -496,6 +498,7 @@ ble_hs_event_rx_hci_ev(struct ble_npl_event *ev)
     hci_ev = ble_npl_event_get_arg(ev);
 
     rc = os_memblock_put(&ble_hs_hci_ev_pool, ev);
+    
     BLE_HS_DBG_ASSERT_EVAL(rc == 0);
 
     ble_hs_hci_evt_process(hci_ev);
@@ -509,7 +512,7 @@ ble_hs_event_tx_notify(struct ble_npl_event *ev)
 }
 #endif
 
-static void
+void
 ble_hs_event_rx_data(struct ble_npl_event *ev)
 {
     ble_hs_process_rx_data_queue();

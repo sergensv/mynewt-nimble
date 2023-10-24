@@ -1154,8 +1154,7 @@ ble_gattc_proc_timeout(struct ble_gattc_proc *proc)
 {
     ble_gattc_tmo_fn *cb;
 
-    //#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
-
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
     cb = ble_gattc_tmo_dispatch_get(proc->op);
@@ -1245,7 +1244,7 @@ ble_gattc_mtu_cb(struct ble_gattc_proc *proc, int status, uint16_t att_handle,
 {
     int rc;
 
-    //#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
     if (status != 0 && status != BLE_HS_EDONE) {
@@ -1266,7 +1265,7 @@ ble_gattc_mtu_cb(struct ble_gattc_proc *proc, int status, uint16_t att_handle,
 static void
 ble_gattc_mtu_tmo(struct ble_gattc_proc *proc)
 {
-	//#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
     ble_gattc_mtu_cb(proc, BLE_HS_ETIMEOUT, 0, 0);
@@ -1357,7 +1356,7 @@ ble_gattc_disc_all_svcs_cb(struct ble_gattc_proc *proc,
 {
     int rc;
 
-    //#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     BLE_HS_DBG_ASSERT(service != NULL || status != 0);
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
@@ -1582,7 +1581,7 @@ ble_gattc_disc_svc_uuid_cb(struct ble_gattc_proc *proc, int status,
 {
     int rc;
 
-    //#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     BLE_HS_DBG_ASSERT(service != NULL || status != 0);
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
@@ -1604,7 +1603,7 @@ ble_gattc_disc_svc_uuid_cb(struct ble_gattc_proc *proc, int status,
 static void
 ble_gattc_disc_svc_uuid_tmo(struct ble_gattc_proc *proc)
 {
-	//#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
     ble_gattc_disc_svc_uuid_cb(proc, BLE_HS_ETIMEOUT, 0, 0);
@@ -1796,7 +1795,7 @@ ble_gattc_find_inc_svcs_cb(struct ble_gattc_proc *proc, int status,
 {
     int rc;
 
-    //#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     BLE_HS_DBG_ASSERT(service != NULL || status != 0);
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
@@ -1818,7 +1817,7 @@ ble_gattc_find_inc_svcs_cb(struct ble_gattc_proc *proc, int status,
 static void
 ble_gattc_find_inc_svcs_tmo(struct ble_gattc_proc *proc)
 {
-	//#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
     ble_gattc_find_inc_svcs_cb(proc, BLE_HS_ETIMEOUT, 0, 0);
@@ -2111,7 +2110,7 @@ ble_gattc_disc_all_chrs_cb(struct ble_gattc_proc *proc, int status,
 {
     int rc;
 
-    //#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     BLE_HS_DBG_ASSERT(chr != NULL || status != 0);
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
@@ -2133,7 +2132,7 @@ ble_gattc_disc_all_chrs_cb(struct ble_gattc_proc *proc, int status,
 static void
 ble_gattc_disc_all_chrs_tmo(struct ble_gattc_proc *proc)
 {
-	//#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
     ble_gattc_disc_all_chrs_cb(proc, BLE_HS_ETIMEOUT, 0, NULL);
@@ -2339,7 +2338,7 @@ ble_gattc_disc_chr_uuid_cb(struct ble_gattc_proc *proc, int status,
 {
     int rc;
 
-    //#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     BLE_HS_DBG_ASSERT(chr != NULL || status != 0);
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
@@ -2361,7 +2360,7 @@ ble_gattc_disc_chr_uuid_cb(struct ble_gattc_proc *proc, int status,
 static void
 ble_gattc_disc_chr_uuid_tmo(struct ble_gattc_proc *proc)
 {
-	//#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
     ble_gattc_disc_chr_uuid_cb(proc, BLE_HS_ETIMEOUT, 0, NULL);
@@ -2579,7 +2578,7 @@ ble_gattc_disc_all_dscs_cb(struct ble_gattc_proc *proc, int status,
 {
     int rc;
 
-    //#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     BLE_HS_DBG_ASSERT(dsc != NULL || status != 0);
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
@@ -2602,7 +2601,7 @@ ble_gattc_disc_all_dscs_cb(struct ble_gattc_proc *proc, int status,
 static void
 ble_gattc_disc_all_dscs_tmo(struct ble_gattc_proc *proc)
 {
-	//#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
     ble_gattc_disc_all_dscs_cb(proc, BLE_HS_ETIMEOUT, 0, NULL);
@@ -2789,7 +2788,7 @@ ble_gattc_read_cb(struct ble_gattc_proc *proc, int status,
 {
     int rc;
 
-    //#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     BLE_HS_DBG_ASSERT(attr != NULL || status != 0);
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
@@ -2811,7 +2810,7 @@ ble_gattc_read_cb(struct ble_gattc_proc *proc, int status,
 static void
 ble_gattc_read_tmo(struct ble_gattc_proc *proc)
 {
-	//#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
     ble_gattc_read_cb(proc, BLE_HS_ETIMEOUT, 0, NULL);
@@ -2924,7 +2923,7 @@ ble_gattc_read_uuid_cb(struct ble_gattc_proc *proc, int status,
 {
     int rc;
 
-    //#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     BLE_HS_DBG_ASSERT(attr != NULL || status != 0);
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
@@ -2946,7 +2945,7 @@ ble_gattc_read_uuid_cb(struct ble_gattc_proc *proc, int status,
 static void
 ble_gattc_read_uuid_tmo(struct ble_gattc_proc *proc)
 {
-	//#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
     ble_gattc_read_uuid_cb(proc, BLE_HS_ETIMEOUT, 0, NULL);
@@ -3088,7 +3087,7 @@ ble_gattc_read_long_cb(struct ble_gattc_proc *proc, int status,
 {
     int rc;
 
-    //#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     BLE_HS_DBG_ASSERT(attr != NULL || status != 0);
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
@@ -3110,7 +3109,7 @@ ble_gattc_read_long_cb(struct ble_gattc_proc *proc, int status,
 static void
 ble_gattc_read_long_tmo(struct ble_gattc_proc *proc)
 {
-	//#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
     ble_gattc_read_long_cb(proc, BLE_HS_ETIMEOUT, 0, NULL);
@@ -3285,7 +3284,7 @@ ble_gattc_read_mult_cb(struct ble_gattc_proc *proc, int status,
     struct ble_gatt_attr attr;
     int rc;
 
-    //#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     BLE_HS_DBG_ASSERT(om != NULL || status != 0);
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
@@ -3320,7 +3319,7 @@ ble_gattc_read_mult_cb(struct ble_gattc_proc *proc, int status,
 static void
 ble_gattc_read_mult_tmo(struct ble_gattc_proc *proc)
 {
-	//#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
     ble_gattc_read_mult_cb(proc, BLE_HS_ETIMEOUT, 0, 0);
@@ -3466,7 +3465,7 @@ ble_gattc_write_cb(struct ble_gattc_proc *proc, int status,
     struct ble_gatt_attr attr;
     int rc;
 
-    //#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
     if (status != 0 && status != BLE_HS_EDONE) {
@@ -3489,7 +3488,7 @@ ble_gattc_write_cb(struct ble_gattc_proc *proc, int status,
 static void
 ble_gattc_write_tmo(struct ble_gattc_proc *proc)
 {
-	//#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
     ble_gattc_write_cb(proc, BLE_HS_ETIMEOUT, 0);
@@ -3590,7 +3589,7 @@ ble_gattc_write_long_cb(struct ble_gattc_proc *proc, int status,
 {
     int rc;
 
-    //#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
     if (status != 0 && status != BLE_HS_EDONE) {
@@ -3612,7 +3611,7 @@ ble_gattc_write_long_cb(struct ble_gattc_proc *proc, int status,
 static void
 ble_gattc_write_long_tmo(struct ble_gattc_proc *proc)
 {
-	//#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
     ble_gattc_write_long_cb(proc, BLE_HS_ETIMEOUT, 0);
@@ -3886,7 +3885,7 @@ ble_gattc_write_reliable_cb(struct ble_gattc_proc *proc, int status,
 {
     int rc;
 
-    //#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
     if (status != 0 && status != BLE_HS_EDONE) {
@@ -3909,7 +3908,7 @@ ble_gattc_write_reliable_cb(struct ble_gattc_proc *proc, int status,
 static void
 ble_gattc_write_reliable_tmo(struct ble_gattc_proc *proc)
 {
-	//#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
     ble_gattc_write_reliable_cb(proc, BLE_HS_ETIMEOUT, 0);
@@ -4283,7 +4282,7 @@ ble_gatts_indicate_err(struct ble_gattc_proc *proc, int status,
 static void
 ble_gatts_indicate_tmo(struct ble_gattc_proc *proc)
 {
-	//#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
     ble_gattc_dbg_assert_proc_not_inserted(proc);
 
     ble_gap_notify_tx_event(BLE_HS_ETIMEOUT, proc->conn_handle,

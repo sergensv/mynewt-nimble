@@ -99,7 +99,7 @@ ble_store_status(struct ble_store_status_event *event)
 {
     int rc;
 
-    //#!  BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
+    BLE_HS_DBG_ASSERT(!ble_hs_locked_by_cur_task());
 
     if (ble_hs_cfg.store_status_cb == NULL) {
         rc = BLE_HS_ENOTSUP;
