@@ -26,56 +26,56 @@ enum bt_mesh_key_evt;
 
 /** Network message encryption credentials */
 struct bt_mesh_net_cred {
-	uint8_t nid;         /* NID */
-	uint8_t enc[16];     /* EncKey */
-	uint8_t privacy[16]; /* PrivacyKey */
+  uint8_t nid;         /* NID */
+  uint8_t enc[16];     /* EncKey */
+  uint8_t privacy[16]; /* PrivacyKey */
 };
 
 /** Subnet instance. */
 struct bt_mesh_subnet {
-	uint32_t beacon_sent;        /* Timestamp of last sent beacon */
-	uint8_t  beacons_last;       /* Number of beacons during last
-				      * observation window
-				      */
-	uint8_t  beacons_cur;        /* Number of beacons observed during
-				      * currently ongoing window.
-				      */
+  uint32_t beacon_sent;        /* Timestamp of last sent beacon */
+  uint8_t  beacons_last;       /* Number of beacons during last
+              * observation window
+              */
+  uint8_t  beacons_cur;        /* Number of beacons observed during
+              * currently ongoing window.
+              */
 
-	uint8_t  beacon_cache[21];   /* Cached last authenticated beacon */
+  uint8_t  beacon_cache[21];   /* Cached last authenticated beacon */
 
-	uint16_t net_idx;            /* NetKeyIndex */
+  uint16_t net_idx;            /* NetKeyIndex */
 
-	uint8_t  kr_phase;           /* Key Refresh Phase */
+  uint8_t  kr_phase;           /* Key Refresh Phase */
 
-	uint8_t  node_id;            /* Node Identity State */
-	uint32_t node_id_start;      /* Node Identity started timestamp */
+  uint8_t  node_id;            /* Node Identity State */
+  uint32_t node_id_start;      /* Node Identity started timestamp */
 
-	uint8_t  auth[8];            /* Beacon Authentication Value */
+  uint8_t  auth[8];            /* Beacon Authentication Value */
 
-	struct bt_mesh_subnet_keys {
-		bool valid;
-		uint8_t net[16];       /* NetKey */
-		struct bt_mesh_net_cred msg;
-		uint8_t net_id[8];     /* Network ID */
-	#if defined(CONFIG_BT_MESH_GATT_PROXY)
-		uint8_t identity[16];  /* IdentityKey */
-	#endif
-		uint8_t beacon[16];    /* BeaconKey */
-	} keys[2];
+  struct bt_mesh_subnet_keys {
+    bool valid;
+    uint8_t net[16];       /* NetKey */
+    struct bt_mesh_net_cred msg;
+    uint8_t net_id[8];     /* Network ID */
+  #if defined(CONFIG_BT_MESH_GATT_PROXY)
+    uint8_t identity[16];  /* IdentityKey */
+  #endif
+    uint8_t beacon[16];    /* BeaconKey */
+  } keys[2];
 };
 
 #ifdef CONFIG_BT_MESH_GATT_PROXY
 extern void (*bt_mesh_subnet_cb_list[5]) (struct bt_mesh_subnet *sub,
-									      enum bt_mesh_key_evt evt);
+                        enum bt_mesh_key_evt evt);
 #else
 extern void (*bt_mesh_subnet_cb_list[4]) (struct bt_mesh_subnet *sub,
-									      enum bt_mesh_key_evt evt);
+                        enum bt_mesh_key_evt evt);
 #endif
 
 /** Subnet callback structure. Instantiate with @ref BT_MESH_SUBNET_CB */
 struct bt_mesh_subnet_cb {
-	void (*evt_handler)(struct bt_mesh_subnet *subnet,
-			    enum bt_mesh_key_evt evt);
+  void (*evt_handler)(struct bt_mesh_subnet *subnet,
+          enum bt_mesh_key_evt evt);
 };
 
 /** @brief Reset all Network keys. */
@@ -89,8 +89,8 @@ void bt_mesh_net_keys_reset(void);
  *  @return Subnet that returned non-zero value.
  */
 struct bt_mesh_subnet *bt_mesh_subnet_find(int (*cb)(struct bt_mesh_subnet *sub,
-						     void *cb_data),
-					   void *cb_data);
+                 void *cb_data),
+             void *cb_data);
 
 /** @brief Iterate through all valid Subnets.
  *
@@ -129,7 +129,7 @@ struct bt_mesh_subnet *bt_mesh_subnet_get(uint16_t net_idx);
  *  @returns 0 on success, or (negative) error code on failure.
  */
 int bt_mesh_subnet_set(uint16_t net_idx, uint8_t kr_phase,
-		       const uint8_t key[16], const uint8_t new_key[16]);
+           const uint8_t key[16], const uint8_t new_key[16]);
 
 /** @brief Create Friendship credentials.
  *
@@ -143,9 +143,9 @@ int bt_mesh_subnet_set(uint16_t net_idx, uint8_t kr_phase,
  *  @returns 0 on success, or (negative) error code on failure.
  */
 int bt_mesh_friend_cred_create(struct bt_mesh_net_cred *cred,
-			       uint16_t lpn_addr, uint16_t frnd_addr,
-			       uint16_t lpn_counter, uint16_t frnd_counter,
-			       const uint8_t key[16]);
+             uint16_t lpn_addr, uint16_t frnd_addr,
+             uint16_t lpn_counter, uint16_t frnd_counter,
+             const uint8_t key[16]);
 
 /** @brief Iterate through all valid network credentials to decrypt a message.
  *
@@ -159,11 +159,11 @@ int bt_mesh_friend_cred_create(struct bt_mesh_net_cred *cred,
  *           callback.
  */
 bool bt_mesh_net_cred_find(struct bt_mesh_net_rx *rx, struct os_mbuf *in,
-			   struct os_mbuf *out,
-			   bool (*cb)(struct bt_mesh_net_rx *rx,
-				      struct os_mbuf *in,
-				      struct os_mbuf *out,
-				      const struct bt_mesh_net_cred *cred));
+         struct os_mbuf *out,
+         bool (*cb)(struct bt_mesh_net_rx *rx,
+              struct os_mbuf *in,
+              struct os_mbuf *out,
+              const struct bt_mesh_net_cred *cred));
 
 /** @brief Get the network flags of the given Subnet.
  *
@@ -191,7 +191,7 @@ void bt_mesh_kr_update(struct bt_mesh_subnet *sub, bool kr_flag, bool new_key);
 static inline bool
 bt_mesh_subnet_has_new_key(const struct bt_mesh_subnet *sub)
 {
-	return sub->kr_phase != BT_MESH_KR_NORMAL;
+  return sub->kr_phase != BT_MESH_KR_NORMAL;
 }
 
 /** @brief Store the Subnet information in persistent storage.

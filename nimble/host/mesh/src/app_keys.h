@@ -23,7 +23,7 @@ void bt_mesh_app_keys_reset(void);
  *  @return 0 on success, or (negative) error code on failure.
  */
 int bt_mesh_app_key_set(uint16_t app_idx, uint16_t net_idx,
-			const uint8_t old_key[16], const uint8_t new_key[16]);
+      const uint8_t old_key[16], const uint8_t new_key[16]);
 
 /** @brief Resolve the message encryption keys, given a message context.
  *
@@ -40,8 +40,8 @@ int bt_mesh_app_key_set(uint16_t app_idx, uint16_t net_idx,
  *  @return 0 on success, or (negative) error code on failure.
  */
 int bt_mesh_keys_resolve(struct bt_mesh_msg_ctx *ctx,
-			 struct bt_mesh_subnet **sub,
-			 const uint8_t **app_key, uint8_t *aid);
+       struct bt_mesh_subnet **sub,
+       const uint8_t **app_key, uint8_t *aid);
 
 /** @brief Iterate through all matching application keys and call @c cb on each.
  *
@@ -54,13 +54,13 @@ int bt_mesh_keys_resolve(struct bt_mesh_msg_ctx *ctx,
  *  @return The AppIdx that yielded a 0-return from the callback.
  */
 uint16_t bt_mesh_app_key_find(bool dev_key, uint8_t aid,
-			      struct bt_mesh_net_rx *rx,
-			      int (*cb)(struct bt_mesh_net_rx *rx,
-					const uint8_t key[16], void *cb_data),
-			      void *cb_data);
+            struct bt_mesh_net_rx *rx,
+            int (*cb)(struct bt_mesh_net_rx *rx,
+          const uint8_t key[16], void *cb_data),
+            void *cb_data);
 
 extern void (*bt_mesh_app_key_cb_list[1]) (uint16_t app_idx, uint16_t net_idx,
-			enum bt_mesh_key_evt evt);
+      enum bt_mesh_key_evt evt);
 
 /** @brief Store pending application keys in persistent storage. */
 void bt_mesh_app_key_pending_store(void);

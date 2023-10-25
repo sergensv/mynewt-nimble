@@ -33,16 +33,16 @@ extern "C" {
  *  Allows access to Bluetooth stack internals, not exposed by public API.
  */
 struct bt_test_cb {
-	void (*mesh_net_recv)(uint8_t ttl, uint8_t ctl, uint16_t src, uint16_t dst,
-			      const void *payload, size_t payload_len);
-	void (*mesh_model_bound)(uint16_t addr, struct bt_mesh_model *model,
-				 uint16_t key_idx);
-	void (*mesh_model_unbound)(uint16_t addr, struct bt_mesh_model *model,
-				   uint16_t key_idx);
-	void (*mesh_prov_invalid_bearer)(uint8_t opcode);
-	void (*mesh_trans_incomp_timer_exp)(void);
+  void (*mesh_net_recv)(uint8_t ttl, uint8_t ctl, uint16_t src, uint16_t dst,
+            const void *payload, size_t payload_len);
+  void (*mesh_model_bound)(uint16_t addr, struct bt_mesh_model *model,
+         uint16_t key_idx);
+  void (*mesh_model_unbound)(uint16_t addr, struct bt_mesh_model *model,
+           uint16_t key_idx);
+  void (*mesh_prov_invalid_bearer)(uint8_t opcode);
+  void (*mesh_trans_incomp_timer_exp)(void);
 
-	sys_snode_t node;
+  sys_snode_t node;
 };
 
 /** Register callbacks for Bluetooth testing purposes

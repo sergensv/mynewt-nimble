@@ -47,7 +47,7 @@ extern "C" {
  *  @param _payload_len Length of the model payload.
  */
 #define BT_MESH_MODEL_BUF_LEN(_op, _payload_len)                               \
-	(BT_MESH_MODEL_OP_LEN(_op) + (_payload_len) + BT_MESH_MIC_SHORT)
+  (BT_MESH_MODEL_OP_LEN(_op) + (_payload_len) + BT_MESH_MIC_SHORT)
 
 
 /** @def BT_MESH_MODEL_BUF_LEN_LONG_MIC
@@ -61,7 +61,7 @@ extern "C" {
  *  @param _payload_len Length of the model payload.
  */
 #define BT_MESH_MODEL_BUF_LEN_LONG_MIC(_op, _payload_len)                      \
-	(BT_MESH_MODEL_OP_LEN(_op) + (_payload_len) + BT_MESH_MIC_LONG)
+  (BT_MESH_MODEL_OP_LEN(_op) + (_payload_len) + BT_MESH_MIC_LONG)
 
 
 /** @def BT_MESH_MODEL_BUF_DEFINE
@@ -73,34 +73,34 @@ extern "C" {
  *  @param _payload_len Length of the model message payload.
  */
 #define BT_MESH_MODEL_BUF(_op, _payload_len)                      \
-	NET_BUF_SIMPLE(BT_MESH_MODEL_BUF_LEN(_op, (_payload_len)))
+  NET_BUF_SIMPLE(BT_MESH_MODEL_BUF_LEN(_op, (_payload_len)))
 
 
 /** Message sending context. */
 struct bt_mesh_msg_ctx {
-	/** NetKey Index of the subnet to send the message on. */
-	uint16_t net_idx;
+  /** NetKey Index of the subnet to send the message on. */
+  uint16_t net_idx;
 
-	/** AppKey Index to encrypt the message with. */
-	uint16_t app_idx;
+  /** AppKey Index to encrypt the message with. */
+  uint16_t app_idx;
 
-	/** Remote address. */
-	uint16_t addr;
+  /** Remote address. */
+  uint16_t addr;
 
-	/** Destination address of a received message. Not used for sending. */
-	uint16_t recv_dst;
+  /** Destination address of a received message. Not used for sending. */
+  uint16_t recv_dst;
 
-	/** RSSI of received packet. Not used for sending. */
-	int8_t  recv_rssi;
+  /** RSSI of received packet. Not used for sending. */
+  int8_t  recv_rssi;
 
-	/** Received TTL value. Not used for sending. */
-	uint8_t  recv_ttl;
+  /** Received TTL value. Not used for sending. */
+  uint8_t  recv_ttl;
 
-	/** Force sending reliably by using segment acknowledgment */
-	bool  send_rel;
+  /** Force sending reliably by using segment acknowledgment */
+  bool  send_rel;
 
-	/** TTL, or BT_MESH_TTL_DEFAULT for default TTL. */
-	uint8_t  send_ttl;
+  /** TTL, or BT_MESH_TTL_DEFAULT for default TTL. */
+  uint8_t  send_ttl;
 };
 
 /** @brief Initialize a model message.
@@ -117,10 +117,10 @@ void bt_mesh_model_msg_init(struct os_mbuf *msg, uint32_t opcode);
  * Acknowledged message context for tracking the status of model messages pending a response.
  */
 struct bt_mesh_msg_ack_ctx {
-	struct k_sem          sem;       /**< Sync semaphore. */
-	uint32_t              op;        /**< Opcode we're waiting for. */
-	uint16_t              dst;       /**< Address of the node that should respond. */
-	void                 *user_data; /**< User specific parameter. */
+  struct k_sem          sem;       /**< Sync semaphore. */
+  uint32_t              op;        /**< Opcode we're waiting for. */
+  uint16_t              dst;       /**< Address of the node that should respond. */
+  void                 *user_data; /**< User specific parameter. */
 };
 
 /** @brief Initialize an acknowledged message context.
@@ -132,7 +132,7 @@ struct bt_mesh_msg_ack_ctx {
  */
 static inline void bt_mesh_msg_ack_ctx_init(struct bt_mesh_msg_ack_ctx *ack)
 {
-	k_sem_init(&ack->sem, 0, 1);
+  k_sem_init(&ack->sem, 0, 1);
 }
 
 /** @brief Reset the synchronization semaphore in an acknowledged message context.
@@ -143,7 +143,7 @@ static inline void bt_mesh_msg_ack_ctx_init(struct bt_mesh_msg_ack_ctx *ack)
  */
 static inline void bt_mesh_msg_ack_ctx_reset(struct bt_mesh_msg_ack_ctx *ack)
 {
-	k_sem_reset(&ack->sem);
+  k_sem_reset(&ack->sem);
 }
 
 /** @brief Clear parameters of an acknowledged message context.
@@ -168,7 +168,7 @@ void bt_mesh_msg_ack_ctx_clear(struct bt_mesh_msg_ack_ctx *ack);
  *  @return 0 on success, or (negative) error code on failure.
  */
 int bt_mesh_msg_ack_ctx_prepare(struct bt_mesh_msg_ack_ctx *ack,
-				uint32_t op, uint16_t dst, void *user_data);
+        uint32_t op, uint16_t dst, void *user_data);
 /** @brief Check if the acknowledged message context is initialized with an opcode.
  *
  *  @param ack Acknowledged message context.
@@ -178,7 +178,7 @@ int bt_mesh_msg_ack_ctx_prepare(struct bt_mesh_msg_ack_ctx *ack,
  */
 static inline bool bt_mesh_msg_ack_ctx_busy(struct bt_mesh_msg_ack_ctx *ack)
 {
-	return (ack->op != 0);
+  return (ack->op != 0);
 }
 
 /** @brief Wait for a message acknowledge.
@@ -200,7 +200,7 @@ int bt_mesh_msg_ack_ctx_wait(struct bt_mesh_msg_ack_ctx *ack, int32_t timeout);
  */
 static inline void bt_mesh_msg_ack_ctx_rx(struct bt_mesh_msg_ack_ctx *ack)
 {
-	k_sem_give(&ack->sem);
+  k_sem_give(&ack->sem);
 }
 
 /** @brief Check if an opcode and address of a message matches the expected one.
@@ -214,7 +214,7 @@ static inline void bt_mesh_msg_ack_ctx_rx(struct bt_mesh_msg_ack_ctx *ack)
  *  @return true if the incoming message matches the expected one, false otherwise.
  */
 bool bt_mesh_msg_ack_ctx_match(const struct bt_mesh_msg_ack_ctx *ack,
-	uint32_t op, uint16_t addr, void **user_data);
+  uint32_t op, uint16_t addr, void **user_data);
 
 #ifdef __cplusplus
 }

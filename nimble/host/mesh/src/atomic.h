@@ -272,7 +272,7 @@ static inline atomic_val_t atomic_nand(atomic_t *target, atomic_val_t value)
      * @param num_bits Number of bits needed.
      */
 #define ATOMIC_DEFINE(name, num_bits) \
-	atomic_t name[1 + ((num_bits) - 1) / ATOMIC_BITS]
+  atomic_t name[1 + ((num_bits) - 1) / ATOMIC_BITS]
 
     /**
      * @brief Atomically test a bit.

@@ -106,7 +106,7 @@ net_buf_unref(struct os_mbuf *om)
 
     adv = BT_MESH_ADV(om);
     if (adv->started && adv->cb && adv->cb->end) {
-    	adv->cb->end(0, adv->cb_data);
+      adv->cb->end(0, adv->cb_data);
     }
 
     if (--adv->ref_cnt > 0) {
@@ -119,9 +119,9 @@ free:
 
 
 void net_buf_simple_clone(const struct os_mbuf *original,
-	struct os_mbuf *clone)
+  struct os_mbuf *clone)
 {
-	memcpy(clone, original, sizeof(struct os_mbuf));
+  memcpy(clone, original, sizeof(struct os_mbuf));
 }
 
 
@@ -158,15 +158,15 @@ net_buf_simple_pull_le16(struct os_mbuf *om)
 uint32_t
 net_buf_simple_pull_le24(struct os_mbuf *om)
 {
-	uint32_t val;
-	struct os_mbuf *old = om;
+  uint32_t val;
+  struct os_mbuf *old = om;
 
-	om = os_mbuf_pullup(om, 3);
-	assert(om == old);
-	val = get_le24(om->om_data);
-	os_mbuf_adj(om, 3);
+  om = os_mbuf_pullup(om, 3);
+  assert(om == old);
+  val = get_le24(om->om_data);
+  os_mbuf_adj(om, 3);
 
-	return val;
+  return val;
 }
 
 uint16_t
@@ -450,23 +450,23 @@ k_work_cancel_delayable(struct k_work_delayable *w)
 void
 k_work_schedule(struct k_work_delayable *w, uint32_t ms)
 {
-	uint32_t ticks;
+  uint32_t ticks;
 
-	if (ble_npl_time_ms_to_ticks(ms, &ticks) != 0) {
-		assert(0);
-	}
-	ble_npl_callout_reset(&w->work, ticks);
+  if (ble_npl_time_ms_to_ticks(ms, &ticks) != 0) {
+    assert(0);
+  }
+  ble_npl_callout_reset(&w->work, ticks);
 }
 
 void
 k_work_reschedule(struct k_work_delayable *w, uint32_t ms)
 {
-	uint32_t ticks;
+  uint32_t ticks;
 
-	if (ble_npl_time_ms_to_ticks(ms, &ticks) != 0) {
-		assert(0);
-	}
-	ble_npl_callout_reset(&w->work, ticks);
+  if (ble_npl_time_ms_to_ticks(ms, &ticks) != 0) {
+    assert(0);
+  }
+  ble_npl_callout_reset(&w->work, ticks);
 }
 
 void
@@ -521,13 +521,13 @@ uint32_t k_uptime_get_32(void)
 
 int64_t k_uptime_delta(int64_t *reftime)
 {
-	int64_t uptime, delta;
+  int64_t uptime, delta;
 
-	uptime = k_uptime_get();
-	delta = uptime - *reftime;
-	*reftime = uptime;
+  uptime = k_uptime_get();
+  delta = uptime - *reftime;
+  *reftime = uptime;
 
-	return delta;
+  return delta;
 }
 
 void k_sleep(int32_t duration)
@@ -559,29 +559,29 @@ bt_dh_key_gen(const uint8_t remote_pk[64], bt_dh_key_cb_t cb)
 
 void
 bt_conn_get_info(struct ble_hs_conn *conn,
-		 struct ble_gap_conn_desc *desc)
+     struct ble_gap_conn_desc *desc)
 {
-	struct ble_hs_conn_addrs addrs;
+  struct ble_hs_conn_addrs addrs;
 
-	ble_hs_conn_addrs(conn, &addrs);
+  ble_hs_conn_addrs(conn, &addrs);
 
-	desc->our_id_addr = addrs.our_id_addr;
-	desc->peer_id_addr = addrs.peer_id_addr;
-	desc->our_ota_addr = addrs.our_ota_addr;
-	desc->peer_ota_addr = addrs.peer_ota_addr;
+  desc->our_id_addr = addrs.our_id_addr;
+  desc->peer_id_addr = addrs.peer_id_addr;
+  desc->our_ota_addr = addrs.our_ota_addr;
+  desc->peer_ota_addr = addrs.peer_ota_addr;
 
-	desc->conn_handle = conn->bhc_handle;
-	desc->conn_itvl = conn->bhc_itvl;
-	desc->conn_latency = conn->bhc_latency;
-	desc->supervision_timeout = conn->bhc_supervision_timeout;
-	desc->master_clock_accuracy = conn->bhc_master_clock_accuracy;
-	desc->sec_state = conn->bhc_sec_state;
+  desc->conn_handle = conn->bhc_handle;
+  desc->conn_itvl = conn->bhc_itvl;
+  desc->conn_latency = conn->bhc_latency;
+  desc->supervision_timeout = conn->bhc_supervision_timeout;
+  desc->master_clock_accuracy = conn->bhc_master_clock_accuracy;
+  desc->sec_state = conn->bhc_sec_state;
 
-	if (conn->bhc_flags & BLE_HS_CONN_F_MASTER) {
-		desc->role = BLE_GAP_ROLE_MASTER;
-	} else {
-		desc->role = BLE_GAP_ROLE_SLAVE;
-	}
+  if (conn->bhc_flags & BLE_HS_CONN_F_MASTER) {
+    desc->role = BLE_GAP_ROLE_MASTER;
+  } else {
+    desc->role = BLE_GAP_ROLE_SLAVE;
+  }
 }
 
 int
@@ -854,89 +854,89 @@ bt_mesh_register_gatt(void)
 
 void net_buf_slist_init(struct net_buf_slist_t *list)
 {
-	STAILQ_INIT(list);
+  STAILQ_INIT(list);
 }
 
 bool net_buf_slist_is_empty(struct net_buf_slist_t *list)
 {
-	return STAILQ_EMPTY(list);
+  return STAILQ_EMPTY(list);
 }
 
 struct os_mbuf *net_buf_slist_peek_head(struct net_buf_slist_t *list)
 {
-	struct os_mbuf_pkthdr *pkthdr;
+  struct os_mbuf_pkthdr *pkthdr;
 
-	/* Get mbuf pointer from packet header pointer */
-	pkthdr = STAILQ_FIRST(list);
-	if (!pkthdr) {
-		return NULL;
-	}
+  /* Get mbuf pointer from packet header pointer */
+  pkthdr = STAILQ_FIRST(list);
+  if (!pkthdr) {
+    return NULL;
+  }
 
-	return OS_MBUF_PKTHDR_TO_MBUF(pkthdr);
+  return OS_MBUF_PKTHDR_TO_MBUF(pkthdr);
 }
 
 struct os_mbuf *net_buf_slist_peek_next(struct os_mbuf *buf)
 {
-	struct os_mbuf_pkthdr *pkthdr;
+  struct os_mbuf_pkthdr *pkthdr;
 
-	/* Get mbuf pointer from packet header pointer */
-	pkthdr = OS_MBUF_PKTHDR(buf);
-	pkthdr = STAILQ_NEXT(pkthdr, omp_next);
-	if (!pkthdr) {
-		return NULL;
-	}
+  /* Get mbuf pointer from packet header pointer */
+  pkthdr = OS_MBUF_PKTHDR(buf);
+  pkthdr = STAILQ_NEXT(pkthdr, omp_next);
+  if (!pkthdr) {
+    return NULL;
+  }
 
-	return OS_MBUF_PKTHDR_TO_MBUF(pkthdr);
+  return OS_MBUF_PKTHDR_TO_MBUF(pkthdr);
 }
 
 struct os_mbuf *net_buf_slist_get(struct net_buf_slist_t *list)
 {
-	os_sr_t sr;
-	struct os_mbuf *m;
+  os_sr_t sr;
+  struct os_mbuf *m;
 
-	m = net_buf_slist_peek_head(list);
-	if (!m) {
-		return NULL;
-	}
+  m = net_buf_slist_peek_head(list);
+  if (!m) {
+    return NULL;
+  }
 
-	/* Remove from queue */
-	OS_ENTER_CRITICAL(sr);
-	STAILQ_REMOVE_HEAD(list, omp_next);
-	OS_EXIT_CRITICAL(sr);
-	return m;
+  /* Remove from queue */
+  OS_ENTER_CRITICAL(sr);
+  STAILQ_REMOVE_HEAD(list, omp_next);
+  OS_EXIT_CRITICAL(sr);
+  return m;
 }
 
 void net_buf_slist_put(struct net_buf_slist_t *list, struct os_mbuf *buf)
 {
-	struct os_mbuf_pkthdr *pkthdr;
+  struct os_mbuf_pkthdr *pkthdr;
 
-	pkthdr = OS_MBUF_PKTHDR(buf);
-	STAILQ_INSERT_TAIL(list, pkthdr, omp_next);
+  pkthdr = OS_MBUF_PKTHDR(buf);
+  STAILQ_INSERT_TAIL(list, pkthdr, omp_next);
 }
 
 void net_buf_slist_remove(struct net_buf_slist_t *list, struct os_mbuf *prev,
-			  struct os_mbuf *cur)
+        struct os_mbuf *cur)
 {
-	struct os_mbuf_pkthdr *pkthdr, *cur_pkthdr;
+  struct os_mbuf_pkthdr *pkthdr, *cur_pkthdr;
 
-	cur_pkthdr = OS_MBUF_PKTHDR(cur);
+  cur_pkthdr = OS_MBUF_PKTHDR(cur);
 
-	STAILQ_FOREACH(pkthdr, list, omp_next) {
-		if (cur_pkthdr == pkthdr) {
-			STAILQ_REMOVE(list, cur_pkthdr, os_mbuf_pkthdr, omp_next);
-			break;
-		}
-	}
+  STAILQ_FOREACH(pkthdr, list, omp_next) {
+    if (cur_pkthdr == pkthdr) {
+      STAILQ_REMOVE(list, cur_pkthdr, os_mbuf_pkthdr, omp_next);
+      break;
+    }
+  }
 }
 
 void net_buf_slist_merge_slist(struct net_buf_slist_t *list,
-			       struct net_buf_slist_t *list_to_append)
+             struct net_buf_slist_t *list_to_append)
 {
-	if (!STAILQ_EMPTY(list_to_append)) {
-		*(list)->stqh_last = list_to_append->stqh_first;
-		(list)->stqh_last = list_to_append->stqh_last;
-		STAILQ_INIT(list_to_append);
-	}
+  if (!STAILQ_EMPTY(list_to_append)) {
+    *(list)->stqh_last = list_to_append->stqh_first;
+    (list)->stqh_last = list_to_append->stqh_last;
+    STAILQ_INIT(list_to_append);
+  }
 }
 
 /** Memory slab methods */
@@ -949,41 +949,41 @@ extern void  k_mem_slab_free(struct k_mem_slab *slab, void **mem)
 
 extern int k_mem_slab_alloc(struct k_mem_slab *slab, void **mem)
 {
-	int result;
+  int result;
 
-	if (slab->free_list != NULL) {
-		/* take a free block */
-		*mem = slab->free_list;
-		slab->free_list = *(char **)(slab->free_list);
-		slab->num_used++;
-		result = 0;
-	} else {
-		*mem = NULL;
-		result = -ENOMEM;
-	}
-	return result;
+  if (slab->free_list != NULL) {
+    /* take a free block */
+    *mem = slab->free_list;
+    slab->free_list = *(char **)(slab->free_list);
+    slab->num_used++;
+    result = 0;
+  } else {
+    *mem = NULL;
+    result = -ENOMEM;
+  }
+  return result;
 }
 
 int create_free_list(struct k_mem_slab *slab)
 {
-	uint32_t j;
-	char *p;
+  uint32_t j;
+  char *p;
 
     /* blocks must be word aligned */
     if(((slab->block_size | (uintptr_t)slab->buffer) &
-				(sizeof(void *) - 1)) != 0) {
-		return -EINVAL;
-	}
+        (sizeof(void *) - 1)) != 0) {
+    return -EINVAL;
+  }
 
-	slab->free_list = NULL;
-	p = slab->buffer;
+  slab->free_list = NULL;
+  p = slab->buffer;
 
-	for (j = 0U; j < slab->num_blocks; j++) {
-		*(char **)p = slab->free_list;
-		slab->free_list = p;
-		p += slab->block_size;
-	}
-	return 0;
+  for (j = 0U; j < slab->num_blocks; j++) {
+    *(char **)p = slab->free_list;
+    slab->free_list = p;
+    p += slab->block_size;
+  }
+  return 0;
 }
 
 #if MYNEWT_VAL(BLE_MESH_SETTINGS)
@@ -995,7 +995,7 @@ int settings_bytes_from_str(char *val_str, void *vp, int *len)
 }
 
 char *settings_str_from_bytes(const void *vp, int vp_len,
-			      char *buf, int buf_len)
+            char *buf, int buf_len)
 {
     if (BASE64_ENCODE_SIZE(vp_len) > buf_len) {
         return NULL;

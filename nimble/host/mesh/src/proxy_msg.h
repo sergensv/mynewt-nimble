@@ -26,42 +26,42 @@
 struct bt_mesh_proxy_role;
 
 typedef int (*proxy_send_cb_t)(uint16_t conn_handle,
-	const void *data, uint16_t len);
+  const void *data, uint16_t len);
 
 typedef void (*proxy_recv_cb_t)(struct bt_mesh_proxy_role *role);
 
 struct bt_mesh_proxy_role {
-	uint16_t conn_handle;
-	uint8_t msg_type;
+  uint16_t conn_handle;
+  uint8_t msg_type;
 
-	struct {
-		proxy_send_cb_t send;
-		proxy_recv_cb_t recv;
-	} cb;
+  struct {
+    proxy_send_cb_t send;
+    proxy_recv_cb_t recv;
+  } cb;
 
-	struct k_work_delayable sar_timer;
-	struct os_mbuf *buf;
+  struct k_work_delayable sar_timer;
+  struct os_mbuf *buf;
 };
 
 struct bt_mesh_proxy_client {
-	struct bt_mesh_proxy_role *cli;
-	uint16_t conn_handle;
-	uint16_t filter[MYNEWT_VAL(BLE_MESH_PROXY_FILTER_SIZE)];
-	enum __packed {
-		NONE,
-		ACCEPT,
-		REJECT,
-		} filter_type;
-	struct ble_npl_callout send_beacons;
+  struct bt_mesh_proxy_role *cli;
+  uint16_t conn_handle;
+  uint16_t filter[MYNEWT_VAL(BLE_MESH_PROXY_FILTER_SIZE)];
+  enum __packed {
+    NONE,
+    ACCEPT,
+    REJECT,
+    } filter_type;
+  struct ble_npl_callout send_beacons;
 };
 
 int bt_mesh_proxy_msg_recv(struct bt_mesh_proxy_role *role,
-	const void *buf, uint16_t len);
+  const void *buf, uint16_t len);
 int bt_mesh_proxy_msg_send(struct bt_mesh_proxy_role *role, uint8_t type, struct os_mbuf *msg);
 void bt_mesh_proxy_msg_init(struct bt_mesh_proxy_role *role);
 void bt_mesh_proxy_role_cleanup(struct bt_mesh_proxy_role *role);
 struct bt_mesh_proxy_role *bt_mesh_proxy_role_setup(uint16_t conn_handle,
-						    proxy_send_cb_t send,
-						    proxy_recv_cb_t recv);
+                proxy_send_cb_t send,
+                proxy_recv_cb_t recv);
 struct bt_mesh_proxy_client *find_client(uint16_t conn_handle);
 #endif /* ZEPHYR_SUBSYS_BLUETOOTH_MESH_PROXY_MSG_H_ */

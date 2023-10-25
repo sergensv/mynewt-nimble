@@ -1038,16 +1038,16 @@ struct ble_gap_event {
          *     o BLE_GAP_EVENT_PATHLOSS_THRESHOLD
          */
 
-	struct {
-	    /** Connection handle */
-	    uint16_t conn_handle;
+  struct {
+      /** Connection handle */
+      uint16_t conn_handle;
 
-	    /** Current Path Loss */
-	    uint8_t current_path_loss;
+      /** Current Path Loss */
+      uint8_t current_path_loss;
 
-	    /** Entered Zone */
-	    uint8_t zone_entered;
-	} pathloss_threshold;
+      /** Entered Zone */
+      uint8_t zone_entered;
+  } pathloss_threshold;
 
         /**
          * Represents crossing of path loss threshold set via LE Set Path Loss
@@ -1055,28 +1055,28 @@ struct ble_gap_event {
          *     o BLE_GAP_EVENT_TRANSMIT_POWER
          */
 
-	struct {
-	    /** BLE_ERR_SUCCESS on success or error code on failure */
-	    uint8_t status;
+  struct {
+      /** BLE_ERR_SUCCESS on success or error code on failure */
+      uint8_t status;
 
-	    /** Connection Handle */
-	    uint16_t conn_handle;
+      /** Connection Handle */
+      uint16_t conn_handle;
 
-	    /** Reason indicating why event was sent */
-	    uint8_t reason;
+      /** Reason indicating why event was sent */
+      uint8_t reason;
 
-	    /** Advertising PHY */
-	    uint8_t phy;
+      /** Advertising PHY */
+      uint8_t phy;
 
             /** Transmit power Level */
             int8_t transmit_power_level;
 
-	    /** Transmit Power Level Flag */
-	    uint8_t transmit_power_level_flag;
+      /** Transmit Power Level Flag */
+      uint8_t transmit_power_level_flag;
 
             /** Delta indicating change in transmit Power Level */
             int8_t delta;
-	} transmit_power;
+  } transmit_power;
 #endif
         /**
          * Represents a received Pairing Complete message
@@ -2347,7 +2347,7 @@ int ble_gap_event_listener_unregister(struct ble_gap_event_listener *listener);
  *
  * @param conn_handle       Connection handle
  * @params enable           1: Enable
- * 			    0: Disable
+ *           0: Disable
  *
  * @return                   0 on success; nonzero on failure.
  */
@@ -2378,7 +2378,7 @@ int ble_gap_set_transmit_power_reporting_enable(uint16_t conn_handle,
  *
  * @params status                0 on success; nonzero on failure.
  * @params conn_handle           Connection handle
- * @params phy	                 Advertising Phy
+ * @params phy                   Advertising Phy
  *
  * @params curr_tx_power_level   Current trasnmit Power Level
  *
@@ -2388,8 +2388,8 @@ int ble_gap_set_transmit_power_reporting_enable(uint16_t conn_handle,
  */
 int ble_gap_enh_read_transmit_power_level(uint16_t conn_handle, uint8_t phy,
                                           uint8_t *out_status, uint8_t *out_phy,
-					  uint8_t *out_curr_tx_power_level,
-					  uint8_t *out_max_tx_power_level);
+            uint8_t *out_curr_tx_power_level,
+            uint8_t *out_max_tx_power_level);
 
 /**
  * Read Remote Transmit Power Level

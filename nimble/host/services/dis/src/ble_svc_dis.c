@@ -35,11 +35,11 @@ struct ble_svc_dis_data ble_svc_dis_data = {
 };
 
 /* Access function */
-#if (MYNEWT_VAL(BLE_SVC_DIS_MODEL_NUMBER_READ_PERM)      >= 0) ||	\
-    (MYNEWT_VAL(BLE_SVC_DIS_SERIAL_NUMBER_READ_PERM)     >= 0) ||	\
-    (MYNEWT_VAL(BLE_SVC_DIS_HARDWARE_REVISION_READ_PERM) >= 0) ||	\
-    (MYNEWT_VAL(BLE_SVC_DIS_FIRMWARE_REVISION_READ_PERM) >= 0) ||	\
-    (MYNEWT_VAL(BLE_SVC_DIS_SOFTWARE_REVISION_READ_PERM) >= 0) ||	\
+#if (MYNEWT_VAL(BLE_SVC_DIS_MODEL_NUMBER_READ_PERM)      >= 0) ||  \
+    (MYNEWT_VAL(BLE_SVC_DIS_SERIAL_NUMBER_READ_PERM)     >= 0) ||  \
+    (MYNEWT_VAL(BLE_SVC_DIS_HARDWARE_REVISION_READ_PERM) >= 0) ||  \
+    (MYNEWT_VAL(BLE_SVC_DIS_FIRMWARE_REVISION_READ_PERM) >= 0) ||  \
+    (MYNEWT_VAL(BLE_SVC_DIS_SOFTWARE_REVISION_READ_PERM) >= 0) ||  \
     (MYNEWT_VAL(BLE_SVC_DIS_MANUFACTURER_NAME_READ_PERM) >= 0) || \
     (MYNEWT_VAL(BLE_SVC_DIS_SYSTEM_ID_READ_PERM) >= 0)
 static int
@@ -53,51 +53,51 @@ static const struct ble_gatt_svc_def ble_svc_dis_defs[] = {
         .uuid = BLE_UUID16_DECLARE(BLE_SVC_DIS_UUID16),
         .characteristics = (struct ble_gatt_chr_def[]) { {
 #if (MYNEWT_VAL(BLE_SVC_DIS_MODEL_NUMBER_READ_PERM) >= 0)
-	    /*** Characteristic: Model Number String */
+      /*** Characteristic: Model Number String */
             .uuid = BLE_UUID16_DECLARE(BLE_SVC_DIS_CHR_UUID16_MODEL_NUMBER),
             .access_cb = ble_svc_dis_access,
             .flags = BLE_GATT_CHR_F_READ |
-	             MYNEWT_VAL(BLE_SVC_DIS_MODEL_NUMBER_READ_PERM),
+               MYNEWT_VAL(BLE_SVC_DIS_MODEL_NUMBER_READ_PERM),
         }, {
 #endif
 #if (MYNEWT_VAL(BLE_SVC_DIS_SERIAL_NUMBER_READ_PERM) >= 0)
-	    /*** Characteristic: Serial Number String */
+      /*** Characteristic: Serial Number String */
             .uuid = BLE_UUID16_DECLARE(BLE_SVC_DIS_CHR_UUID16_SERIAL_NUMBER),
             .access_cb = ble_svc_dis_access,
             .flags = BLE_GATT_CHR_F_READ |
-	             MYNEWT_VAL(BLE_SVC_DIS_SERIAL_NUMBER_READ_PERM),
+               MYNEWT_VAL(BLE_SVC_DIS_SERIAL_NUMBER_READ_PERM),
         }, {
 #endif
 #if (MYNEWT_VAL(BLE_SVC_DIS_HARDWARE_REVISION_READ_PERM) >= 0)
-	    /*** Characteristic: Hardware Revision String */
+      /*** Characteristic: Hardware Revision String */
             .uuid = BLE_UUID16_DECLARE(BLE_SVC_DIS_CHR_UUID16_HARDWARE_REVISION),
             .access_cb = ble_svc_dis_access,
             .flags = BLE_GATT_CHR_F_READ |
-	             MYNEWT_VAL(BLE_SVC_DIS_HARDWARE_REVISION_READ_PERM),
+               MYNEWT_VAL(BLE_SVC_DIS_HARDWARE_REVISION_READ_PERM),
         }, {
 #endif
 #if (MYNEWT_VAL(BLE_SVC_DIS_FIRMWARE_REVISION_READ_PERM) >= 0)
-	    /*** Characteristic: Firmware Revision String */
+      /*** Characteristic: Firmware Revision String */
             .uuid = BLE_UUID16_DECLARE(BLE_SVC_DIS_CHR_UUID16_FIRMWARE_REVISION),
             .access_cb = ble_svc_dis_access,
             .flags = BLE_GATT_CHR_F_READ |
-	             MYNEWT_VAL(BLE_SVC_DIS_FIRMWARE_REVISION_READ_PERM),
+               MYNEWT_VAL(BLE_SVC_DIS_FIRMWARE_REVISION_READ_PERM),
         }, {
 #endif
 #if (MYNEWT_VAL(BLE_SVC_DIS_SOFTWARE_REVISION_READ_PERM) >= 0)
-	    /*** Characteristic: Software Revision String */
+      /*** Characteristic: Software Revision String */
             .uuid = BLE_UUID16_DECLARE(BLE_SVC_DIS_CHR_UUID16_SOFTWARE_REVISION),
             .access_cb = ble_svc_dis_access,
             .flags = BLE_GATT_CHR_F_READ |
-	             MYNEWT_VAL(BLE_SVC_DIS_SOFTWARE_REVISION_READ_PERM),
+               MYNEWT_VAL(BLE_SVC_DIS_SOFTWARE_REVISION_READ_PERM),
         }, {
 #endif
 #if (MYNEWT_VAL(BLE_SVC_DIS_MANUFACTURER_NAME_READ_PERM) >= 0)
-	    /*** Characteristic: Manufacturer Name */
+      /*** Characteristic: Manufacturer Name */
             .uuid = BLE_UUID16_DECLARE(BLE_SVC_DIS_CHR_UUID16_MANUFACTURER_NAME),
             .access_cb = ble_svc_dis_access,
             .flags = BLE_GATT_CHR_F_READ |
-	             MYNEWT_VAL(BLE_SVC_DIS_MANUFACTURER_NAME_READ_PERM),
+               MYNEWT_VAL(BLE_SVC_DIS_MANUFACTURER_NAME_READ_PERM),
         }, {
 #endif
 #if (MYNEWT_VAL(BLE_SVC_DIS_SYSTEM_ID_READ_PERM) >= 0)
@@ -122,11 +122,11 @@ static const struct ble_gatt_svc_def ble_svc_dis_defs[] = {
  * Simple read access callback for the device information service
  * characteristic.
  */
-#if (MYNEWT_VAL(BLE_SVC_DIS_MODEL_NUMBER_READ_PERM)      >= 0) ||	\
-    (MYNEWT_VAL(BLE_SVC_DIS_SERIAL_NUMBER_READ_PERM)     >= 0) ||	\
-    (MYNEWT_VAL(BLE_SVC_DIS_HARDWARE_REVISION_READ_PERM) >= 0) ||	\
-    (MYNEWT_VAL(BLE_SVC_DIS_FIRMWARE_REVISION_READ_PERM) >= 0) ||	\
-    (MYNEWT_VAL(BLE_SVC_DIS_SOFTWARE_REVISION_READ_PERM) >= 0) ||	\
+#if (MYNEWT_VAL(BLE_SVC_DIS_MODEL_NUMBER_READ_PERM)      >= 0) ||  \
+    (MYNEWT_VAL(BLE_SVC_DIS_SERIAL_NUMBER_READ_PERM)     >= 0) ||  \
+    (MYNEWT_VAL(BLE_SVC_DIS_HARDWARE_REVISION_READ_PERM) >= 0) ||  \
+    (MYNEWT_VAL(BLE_SVC_DIS_FIRMWARE_REVISION_READ_PERM) >= 0) ||  \
+    (MYNEWT_VAL(BLE_SVC_DIS_SOFTWARE_REVISION_READ_PERM) >= 0) ||  \
     (MYNEWT_VAL(BLE_SVC_DIS_MANUFACTURER_NAME_READ_PERM) >= 0) || \
     (MYNEWT_VAL(BLE_SVC_DIS_SYSTEM_ID_READ_PERM) >= 0)
 static int

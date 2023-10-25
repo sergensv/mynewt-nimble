@@ -21,11 +21,11 @@ void resolve_svc_handles(void);
 int bt_mesh_pb_gatt_adv_start(void);
 
 extern struct svc_handles {
-	uint16_t proxy_h;
-	uint16_t proxy_data_out_h;
-	uint16_t prov_h;
-	uint16_t prov_data_in_h;
-	uint16_t prov_data_out_h;
+  uint16_t proxy_h;
+  uint16_t proxy_data_out_h;
+  uint16_t prov_h;
+  uint16_t prov_data_in_h;
+  uint16_t prov_data_out_h;
 } svc_handles;
 
 #endif /* __PB_GATT_SRV_H__ */

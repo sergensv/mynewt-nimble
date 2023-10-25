@@ -26,8 +26,8 @@
 .itvl_max = BT_GAP_ADV_FAST_INT_MAX_2,
 
 struct bt_mesh_proxy_idle_cb {
-	sys_snode_t n;
-	void (*cb)(void);
+  sys_snode_t n;
+  void (*cb)(void);
 };
 
 void notify_complete(void);

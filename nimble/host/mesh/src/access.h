@@ -13,8 +13,8 @@
 
 /* Tree walk return codes */
 enum bt_mesh_walk {
-	BT_MESH_WALK_STOP,
-	BT_MESH_WALK_CONTINUE,
+  BT_MESH_WALK_STOP,
+  BT_MESH_WALK_CONTINUE,
 };
 
 void bt_mesh_elem_register(struct bt_mesh_elem *elem, uint8_t count);
@@ -28,17 +28,17 @@ bool bt_mesh_has_addr(uint16_t addr);
 bool bt_mesh_model_has_key(struct bt_mesh_model *mod, uint16_t key);
 
 void bt_mesh_model_extensions_walk(struct bt_mesh_model *root,
-				   enum bt_mesh_walk (*cb)(struct bt_mesh_model *mod,
-							   void *user_data),
-				   void *user_data);
+           enum bt_mesh_walk (*cb)(struct bt_mesh_model *mod,
+                 void *user_data),
+           void *user_data);
 
 uint16_t *bt_mesh_model_find_group(struct bt_mesh_model **mod, uint16_t addr);
 
 void bt_mesh_model_foreach(void (*func)(struct bt_mesh_model *mod,
-					struct bt_mesh_elem *elem,
-					bool vnd, bool primary,
-					void *user_data),
-			   void *user_data);
+          struct bt_mesh_elem *elem,
+          bool vnd, bool primary,
+          void *user_data),
+         void *user_data);
 
 int32_t bt_mesh_model_pub_period_get(struct bt_mesh_model *mod);
 
@@ -69,7 +69,7 @@ void bt_mesh_model_settings_commit(void);
  * @param cb A pointer to the callback function.
  */
 void bt_mesh_msg_cb_set(void (*cb)(uint32_t opcode, struct bt_mesh_msg_ctx *ctx,
-	struct os_mbuf *buf));
+  struct os_mbuf *buf));
 
 /** @brief Send a mesh model message.
  *
@@ -82,7 +82,7 @@ void bt_mesh_msg_cb_set(void (*cb)(uint32_t opcode, struct bt_mesh_msg_ctx *ctx,
  * @return 0 on success or negative error code on failure.
  */
 int bt_mesh_msg_send(struct bt_mesh_msg_ctx *ctx, struct os_mbuf *buf, uint16_t src_addr,
-	const struct bt_mesh_send_cb *cb, void *cb_data);
+  const struct bt_mesh_send_cb *cb, void *cb_data);
 
 void bt_mesh_access_init(void);
 #endif

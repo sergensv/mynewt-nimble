@@ -690,12 +690,12 @@ ble_hs_hci_evt_le_periodic_adv_sync_lost(uint8_t subevent, const void *data,
 #if MYNEWT_VAL(BLE_POWER_CONTROL)
 static int
 ble_hs_hci_evt_le_pathloss_threshold(uint8_t subevent, const void *data,
-					     unsigned int len)
+               unsigned int len)
 {
     const struct ble_hci_ev_le_subev_path_loss_threshold *ev = data;
 
     if (len != sizeof(*ev)) {
-	return BLE_HS_EBADDATA;
+  return BLE_HS_EBADDATA;
     }
 
     ble_gap_rx_le_pathloss_threshold(ev);
@@ -704,12 +704,12 @@ ble_hs_hci_evt_le_pathloss_threshold(uint8_t subevent, const void *data,
 
 static int
 ble_hs_hci_evt_le_transmit_power_report(uint8_t subevent, const void *data,
-					     unsigned int len)
+               unsigned int len)
 {
     const struct ble_hci_ev_le_subev_transmit_power_report *ev = data;
 
     if (len != sizeof(*ev)) {
-	return BLE_HS_EBADDATA;
+  return BLE_HS_EBADDATA;
     }
 
     ble_gap_rx_transmit_power_report(ev);

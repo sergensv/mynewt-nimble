@@ -27,12 +27,12 @@ extern "C" {
 
 /** Bluetooth Mesh Feature states */
 enum bt_mesh_feat_state {
-	/** Feature is supported, but disabled. */
-	BT_MESH_FEATURE_DISABLED,
-	/** Feature is supported and enabled. */
-	BT_MESH_FEATURE_ENABLED,
-	/** Feature is not supported, and cannot be enabled. */
-	BT_MESH_FEATURE_NOT_SUPPORTED,
+  /** Feature is supported, but disabled. */
+  BT_MESH_FEATURE_DISABLED,
+  /** Feature is supported and enabled. */
+  BT_MESH_FEATURE_ENABLED,
+  /** Feature is not supported, and cannot be enabled. */
+  BT_MESH_FEATURE_NOT_SUPPORTED,
 };
 
 /* Key Refresh Phase */
@@ -328,7 +328,7 @@ uint8_t bt_mesh_subnet_kr_phase_get(uint16_t net_idx, uint8_t *phase);
  *  @retval STATUS_CANNOT_SET Couldn't set the Node Identity state.
  */
 uint8_t bt_mesh_subnet_node_id_set(uint16_t net_idx,
-				   enum bt_mesh_feat_state node_id);
+           enum bt_mesh_feat_state node_id);
 
 /** @brief Get the Node Identity state of the Subnet.
  *
@@ -339,7 +339,7 @@ uint8_t bt_mesh_subnet_node_id_set(uint16_t net_idx,
  *  @retval STATUS_INVALID_NETKEY The NetIdx is unknown.
  */
 uint8_t bt_mesh_subnet_node_id_get(uint16_t net_idx,
-				   enum bt_mesh_feat_state *node_id);
+           enum bt_mesh_feat_state *node_id);
 
 /** @brief Get a list of all known Subnet indexes.
  *
@@ -398,7 +398,7 @@ ssize_t bt_mesh_subnets_get(uint16_t net_idxs[], size_t max, off_t skip);
  *  @retval STATUS_CANNOT_SET Cannot set the Application key for some reason.
  */
 uint8_t bt_mesh_app_key_add(uint16_t app_idx, uint16_t net_idx,
-			    const uint8_t key[16]);
+          const uint8_t key[16]);
 
 /** @brief Update an Application key.
  *
@@ -425,7 +425,7 @@ uint8_t bt_mesh_app_key_add(uint16_t app_idx, uint16_t net_idx,
  *                                    different key value.
  */
 uint8_t bt_mesh_app_key_update(uint16_t app_idx, uint16_t net_idx,
-			       const uint8_t key[16]);
+             const uint8_t key[16]);
 
 /** @brief Delete an Application key.
  *
@@ -474,7 +474,7 @@ bool bt_mesh_app_key_exists(uint16_t app_idx);
  *          if the number of known Applications exceeds the @c max parameter.
  */
 ssize_t bt_mesh_app_keys_get(uint16_t net_idx, uint16_t app_idxs[], size_t max,
-			     off_t skip);
+           off_t skip);
 
 /**
  * @}

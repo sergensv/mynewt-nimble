@@ -74,82 +74,82 @@
 #define PROV_IO_OOB_SIZE_MAX   8 /* in bytes */
 
 #define PROV_BUF(len) \
-	NET_BUF_SIMPLE(PROV_BEARER_BUF_HEADROOM + PDU_OP_LEN + len)
+  NET_BUF_SIMPLE(PROV_BEARER_BUF_HEADROOM + PDU_OP_LEN + len)
 
 enum {
-	WAIT_PUB_KEY,           /* Waiting for local PubKey to be generated */
-	LINK_ACTIVE,            /* Link has been opened */
-	WAIT_NUMBER,            /* Waiting for number input from user */
-	WAIT_STRING,            /* Waiting for string input from user */
-	NOTIFY_INPUT_COMPLETE,  /* Notify that input has been completed. */
-	PROVISIONER,            /* The link was opened as provisioner */
-	OOB_PUB_KEY,            /* OOB Public key used */
-	PUB_KEY_SENT,           /* Public key has been sent */
-	REMOTE_PUB_KEY,         /* Remote key has been received */
-	INPUT_COMPLETE,         /* Device input completed */
-	WAIT_CONFIRM,           /* Wait for send confirm */
-	WAIT_AUTH,              /* Wait for auth response */
-	OOB_STATIC_KEY,         /* OOB Static Authentication */
-	WAIT_DH_KEY, /* Wait for DH Key */
+  WAIT_PUB_KEY,           /* Waiting for local PubKey to be generated */
+  LINK_ACTIVE,            /* Link has been opened */
+  WAIT_NUMBER,            /* Waiting for number input from user */
+  WAIT_STRING,            /* Waiting for string input from user */
+  NOTIFY_INPUT_COMPLETE,  /* Notify that input has been completed. */
+  PROVISIONER,            /* The link was opened as provisioner */
+  OOB_PUB_KEY,            /* OOB Public key used */
+  PUB_KEY_SENT,           /* Public key has been sent */
+  REMOTE_PUB_KEY,         /* Remote key has been received */
+  INPUT_COMPLETE,         /* Device input completed */
+  WAIT_CONFIRM,           /* Wait for send confirm */
+  WAIT_AUTH,              /* Wait for auth response */
+  OOB_STATIC_KEY,         /* OOB Static Authentication */
+  WAIT_DH_KEY, /* Wait for DH Key */
 
-	NUM_FLAGS,
+  NUM_FLAGS,
 };
 
 /** Provisioning role */
 struct bt_mesh_prov_role {
-	void (*link_opened)(void);
+  void (*link_opened)(void);
 
-	void (*link_closed)(void);
+  void (*link_closed)(void);
 
-	void (*error)(uint8_t reason);
+  void (*error)(uint8_t reason);
 
-	void (*input_complete)(void);
+  void (*input_complete)(void);
 
-	void (*op[10])(const uint8_t *data);
+  void (*op[10])(const uint8_t *data);
 };
 
 struct bt_mesh_prov_link {
-	ATOMIC_DEFINE(flags, NUM_FLAGS);
+  ATOMIC_DEFINE(flags, NUM_FLAGS);
 
-	const struct prov_bearer *bearer;
-	const struct bt_mesh_prov_role *role;
+  const struct prov_bearer *bearer;
+  const struct bt_mesh_prov_role *role;
 
-	uint8_t oob_method;             /* Authen method */
-	uint8_t oob_action;             /* Authen action */
-	uint8_t oob_size;               /* Authen size */
-	uint8_t auth[16];               /* Authen value */
+  uint8_t oob_method;             /* Authen method */
+  uint8_t oob_action;             /* Authen action */
+  uint8_t oob_size;               /* Authen size */
+  uint8_t auth[16];               /* Authen value */
 
-	uint8_t dhkey[BT_DH_KEY_LEN];   /* Calculated DHKey */
-	uint8_t expect;                 /* Next expected PDU */
-	uint8_t conf[16];               /* Local/Remote Confirmation */
-	uint8_t rand[16];               /* Local Random */
+  uint8_t dhkey[BT_DH_KEY_LEN];   /* Calculated DHKey */
+  uint8_t expect;                 /* Next expected PDU */
+  uint8_t conf[16];               /* Local/Remote Confirmation */
+  uint8_t rand[16];               /* Local Random */
 
-	uint8_t conf_salt[16];          /* ConfirmationSalt */
-	uint8_t conf_key[16];           /* ConfirmationKey */
-	/* ConfirmationInput fields: */
-	struct {
-		uint8_t invite[PDU_LEN_INVITE];
-		uint8_t capabilities[PDU_LEN_CAPABILITIES];
-		uint8_t start[PDU_LEN_START];
-		uint8_t pub_key_provisioner[PDU_LEN_PUB_KEY]; /* big-endian */
-		uint8_t pub_key_device[PDU_LEN_PUB_KEY]; /* big-endian */
-	} conf_inputs;
-	uint8_t prov_salt[16];          /* Provisioning Salt */
+  uint8_t conf_salt[16];          /* ConfirmationSalt */
+  uint8_t conf_key[16];           /* ConfirmationKey */
+  /* ConfirmationInput fields: */
+  struct {
+    uint8_t invite[PDU_LEN_INVITE];
+    uint8_t capabilities[PDU_LEN_CAPABILITIES];
+    uint8_t start[PDU_LEN_START];
+    uint8_t pub_key_provisioner[PDU_LEN_PUB_KEY]; /* big-endian */
+    uint8_t pub_key_device[PDU_LEN_PUB_KEY]; /* big-endian */
+  } conf_inputs;
+  uint8_t prov_salt[16];          /* Provisioning Salt */
 };
 
 extern struct bt_mesh_prov_link bt_mesh_prov_link;
 extern const struct bt_mesh_prov *bt_mesh_prov;
 
 static inline int bt_mesh_prov_send(struct os_mbuf *buf,
-				    prov_bearer_send_complete_t cb)
+            prov_bearer_send_complete_t cb)
 {
-	return bt_mesh_prov_link.bearer->send(buf, cb, NULL);
+  return bt_mesh_prov_link.bearer->send(buf, cb, NULL);
 }
 
 static inline void bt_mesh_prov_buf_init(struct os_mbuf *buf, uint8_t type)
 {
-	net_buf_reserve(buf, PROV_BEARER_BUF_HEADROOM);
-	net_buf_simple_add_u8(buf, type);
+  net_buf_reserve(buf, PROV_BEARER_BUF_HEADROOM);
+  net_buf_simple_add_u8(buf, type);
 }
 
 int bt_mesh_prov_reset_state(void (*func)(const uint8_t key[BT_PUB_KEY_LEN]));

@@ -33,50 +33,50 @@
 #define TRANS_CTL_OP_HEARTBEAT         0x0a
 
 struct bt_mesh_ctl_friend_poll {
-	uint8_t  fsn;
+  uint8_t  fsn;
 }__attribute__((__packed__));
 
 struct bt_mesh_ctl_friend_update {
-	uint8_t  flags;
-	uint32_t iv_index;
-	uint8_t  md;
+  uint8_t  flags;
+  uint32_t iv_index;
+  uint8_t  md;
 }__attribute__((__packed__));
 
 struct bt_mesh_ctl_friend_req {
-	uint8_t  criteria;
-	uint8_t  recv_delay;
-	uint8_t  poll_to[3];
-	uint16_t prev_addr;
-	uint8_t  num_elem;
-	uint16_t lpn_counter;
+  uint8_t  criteria;
+  uint8_t  recv_delay;
+  uint8_t  poll_to[3];
+  uint16_t prev_addr;
+  uint8_t  num_elem;
+  uint16_t lpn_counter;
 }__attribute__((__packed__));
 
 struct bt_mesh_ctl_friend_offer {
-	uint8_t  recv_win;
-	uint8_t  queue_size;
-	uint8_t  sub_list_size;
-	int8_t  rssi;
-	uint16_t frnd_counter;
+  uint8_t  recv_win;
+  uint8_t  queue_size;
+  uint8_t  sub_list_size;
+  int8_t  rssi;
+  uint16_t frnd_counter;
 }__attribute__((__packed__));
 
 struct bt_mesh_ctl_friend_clear {
-	uint16_t lpn_addr;
-	uint16_t lpn_counter;
+  uint16_t lpn_addr;
+  uint16_t lpn_counter;
 }__attribute__((__packed__));
 
 struct bt_mesh_ctl_friend_clear_confirm {
-	uint16_t lpn_addr;
-	uint16_t lpn_counter;
+  uint16_t lpn_addr;
+  uint16_t lpn_counter;
 }__attribute__((__packed__));
 
 #define BT_MESH_FRIEND_SUB_MIN_LEN (1 + 2)
 struct bt_mesh_ctl_friend_sub {
-	uint8_t  xact;
-	uint16_t addr_list[5];
+  uint8_t  xact;
+  uint16_t addr_list[5];
 }__attribute__((__packed__));
 
 struct bt_mesh_ctl_friend_sub_confirm {
-	uint8_t  xact;
+  uint8_t  xact;
 }__attribute__((__packed__));
 
 bool bt_mesh_tx_in_progress(void);
@@ -84,10 +84,10 @@ bool bt_mesh_tx_in_progress(void);
 void bt_mesh_rx_reset(void);
 
 int bt_mesh_ctl_send(struct bt_mesh_net_tx *tx, uint8_t ctl_op, void *data,
-		     size_t data_len, const struct bt_mesh_send_cb *cb, void *cb_data);
+         size_t data_len, const struct bt_mesh_send_cb *cb, void *cb_data);
 
 int bt_mesh_trans_send(struct bt_mesh_net_tx *tx, struct os_mbuf *msg,
-		       const struct bt_mesh_send_cb *cb, void *cb_data);
+           const struct bt_mesh_send_cb *cb, void *cb_data);
 
 int bt_mesh_trans_recv(struct os_mbuf *buf, struct bt_mesh_net_rx *rx);
 

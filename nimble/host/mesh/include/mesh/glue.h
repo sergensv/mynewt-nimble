@@ -51,17 +51,17 @@
 extern "C" {
 #endif
 
-#define SETTINGS_MAX_DIR_DEPTH	8	/* max depth of settings tree */
+#define SETTINGS_MAX_DIR_DEPTH  8  /* max depth of settings tree */
 
 /** Key size used in Bluetooth's ECC domain. */
 #define BT_ECC_KEY_SIZE            32
-	/** Length of a Bluetooth ECC public key coordinate. */
+  /** Length of a Bluetooth ECC public key coordinate. */
 #define BT_PUB_KEY_COORD_LEN       (BT_ECC_KEY_SIZE)
-	/** Length of a Bluetooth ECC public key. */
+  /** Length of a Bluetooth ECC public key. */
 #define BT_PUB_KEY_LEN             (2 * (BT_PUB_KEY_COORD_LEN))
-	/** Length of a Bluetooth ECC private key. */
+  /** Length of a Bluetooth ECC private key. */
 #define BT_PRIV_KEY_LEN            (BT_ECC_KEY_SIZE)
-	/** Length of a Bluetooth Diffie-Hellman key. */
+  /** Length of a Bluetooth Diffie-Hellman key. */
 #define BT_DH_KEY_LEN              (BT_ECC_KEY_SIZE)
 
 /** @brief Helper to declare elements of bt_data arrays
@@ -158,8 +158,8 @@ extern "C" {
 #endif
 
 #define CHECKIF(expr) \
-	__ASSERT_NO_MSG(!(expr));   \
-	if (0)
+  __ASSERT_NO_MSG(!(expr));   \
+  if (0)
 
 #define __packed    __attribute__((__packed__))
 
@@ -259,9 +259,9 @@ static inline void net_buf_simple_reset(struct os_mbuf *om)
 }
 
 struct bt_le_ext_adv_start_param {
-	uint16_t timeout;
+  uint16_t timeout;
 
-	uint8_t  num_events;
+  uint8_t  num_events;
 };
 
 void net_buf_put(struct ble_npl_eventq *fifo, struct os_mbuf *buf);
@@ -342,70 +342,70 @@ struct bt_pub_key_cb {
 
 /** LE Advertising Parameters. */
 struct bt_le_adv_param {
-	/**
-	 * @brief Local identity.
-	 *
-	 * @note When extended advertising @kconfig{CONFIG_BT_EXT_ADV} is not
-	 *       enabled or not supported by the controller it is not possible
-	 *       to scan and advertise simultaneously using two different
-	 *       random addresses.
-	 */
-	uint8_t  id;
+  /**
+   * @brief Local identity.
+   *
+   * @note When extended advertising @kconfig{CONFIG_BT_EXT_ADV} is not
+   *       enabled or not supported by the controller it is not possible
+   *       to scan and advertise simultaneously using two different
+   *       random addresses.
+   */
+  uint8_t  id;
 
-	/**
-	 * @brief Advertising Set Identifier, valid range 0x00 - 0x0f.
-	 *
-	 * @note Requires @ref BT_LE_ADV_OPT_EXT_ADV
-	 **/
-	uint8_t  sid;
+  /**
+   * @brief Advertising Set Identifier, valid range 0x00 - 0x0f.
+   *
+   * @note Requires @ref BT_LE_ADV_OPT_EXT_ADV
+   **/
+  uint8_t  sid;
 
-	/**
-	 * @brief Secondary channel maximum skip count.
-	 *
-	 * Maximum advertising events the advertiser can skip before it must
-	 * send advertising data on the secondary advertising channel.
-	 *
-	 * @note Requires @ref BT_LE_ADV_OPT_EXT_ADV
-	 */
-	uint8_t  secondary_max_skip;
+  /**
+   * @brief Secondary channel maximum skip count.
+   *
+   * Maximum advertising events the advertiser can skip before it must
+   * send advertising data on the secondary advertising channel.
+   *
+   * @note Requires @ref BT_LE_ADV_OPT_EXT_ADV
+   */
+  uint8_t  secondary_max_skip;
 
-	/** Bit-field of advertising options */
-	uint32_t options;
+  /** Bit-field of advertising options */
+  uint32_t options;
 
-	/** Minimum Advertising Interval (N * 0.625 milliseconds)
-	 * Minimum Advertising Interval shall be less than or equal to the
-	 * Maximum Advertising Interval. The Minimum Advertising Interval and
-	 * Maximum Advertising Interval should not be the same value (as stated
-	 * in Bluetooth Core Spec 5.2, section 7.8.5)
-	 * Range: 0x0020 to 0x4000
-	 */
-	uint32_t interval_min;
+  /** Minimum Advertising Interval (N * 0.625 milliseconds)
+   * Minimum Advertising Interval shall be less than or equal to the
+   * Maximum Advertising Interval. The Minimum Advertising Interval and
+   * Maximum Advertising Interval should not be the same value (as stated
+   * in Bluetooth Core Spec 5.2, section 7.8.5)
+   * Range: 0x0020 to 0x4000
+   */
+  uint32_t interval_min;
 
-	/** Maximum Advertising Interval (N * 0.625 milliseconds)
-	 * Minimum Advertising Interval shall be less than or equal to the
-	 * Maximum Advertising Interval. The Minimum Advertising Interval and
-	 * Maximum Advertising Interval should not be the same value (as stated
-	 * in Bluetooth Core Spec 5.2, section 7.8.5)
-	 * Range: 0x0020 to 0x4000
-	 */
-	uint32_t interval_max;
+  /** Maximum Advertising Interval (N * 0.625 milliseconds)
+   * Minimum Advertising Interval shall be less than or equal to the
+   * Maximum Advertising Interval. The Minimum Advertising Interval and
+   * Maximum Advertising Interval should not be the same value (as stated
+   * in Bluetooth Core Spec 5.2, section 7.8.5)
+   * Range: 0x0020 to 0x4000
+   */
+  uint32_t interval_max;
 
-	/**
-	 * @brief Directed advertising to peer
-	 *
-	 * When this parameter is set the advertiser will send directed
-	 * advertising to the remote device.
-	 *
-	 * The advertising type will either be high duty cycle, or low duty
-	 * cycle if the BT_LE_ADV_OPT_DIR_MODE_LOW_DUTY option is enabled.
-	 * When using @ref BT_LE_ADV_OPT_EXT_ADV then only low duty cycle is
-	 * allowed.
-	 *
-	 * In case of connectable high duty cycle if the connection could not
-	 * be established within the timeout the connected() callback will be
-	 * called with the status set to @ref BT_HCI_ERR_ADV_TIMEOUT.
-	 */
-	const bt_addr_le_t *peer;
+  /**
+   * @brief Directed advertising to peer
+   *
+   * When this parameter is set the advertiser will send directed
+   * advertising to the remote device.
+   *
+   * The advertising type will either be high duty cycle, or low duty
+   * cycle if the BT_LE_ADV_OPT_DIR_MODE_LOW_DUTY option is enabled.
+   * When using @ref BT_LE_ADV_OPT_EXT_ADV then only low duty cycle is
+   * allowed.
+   *
+   * In case of connectable high duty cycle if the connection could not
+   * be established within the timeout the connected() callback will be
+   * called with the status set to @ref BT_HCI_ERR_ADV_TIMEOUT.
+   */
+  const bt_addr_le_t *peer;
 };
 
 typedef void (*bt_dh_key_cb_t)(const uint8_t key[BT_DH_KEY_LEN]);
@@ -417,11 +417,11 @@ int bt_rand(void *buf, size_t len);
 const char * bt_hex(const void *buf, size_t len);
 int bt_encrypt_be(const uint8_t *key, const uint8_t *plaintext, uint8_t *enc_data);
 int bt_ccm_decrypt(const uint8_t key[16], uint8_t nonce[13], const uint8_t *enc_data,
-		   size_t len, const uint8_t *aad, size_t aad_len,
-		   uint8_t *plaintext, size_t mic_size);
+       size_t len, const uint8_t *aad, size_t aad_len,
+       uint8_t *plaintext, size_t mic_size);
 int bt_ccm_encrypt(const uint8_t key[16], uint8_t nonce[13], const uint8_t *enc_data,
-		   size_t len, const uint8_t *aad, size_t aad_len,
-		   uint8_t *plaintext, size_t mic_size);
+       size_t len, const uint8_t *aad, size_t aad_len,
+       uint8_t *plaintext, size_t mic_size);
 void bt_mesh_register_gatt(void);
 int bt_le_adv_start(const struct ble_gap_adv_params *param,
                     const struct bt_data *ad, size_t ad_len,
@@ -557,33 +557,33 @@ static inline unsigned int find_msb_set(uint32_t op)
 #define printk console_printf
 
 #define CONTAINER_OF(ptr, type, field) \
-	((type *)(((char *)(ptr)) - offsetof(type, field)))
+  ((type *)(((char *)(ptr)) - offsetof(type, field)))
 
 
 #define k_sem ble_npl_sem
 
 static inline void k_sem_init(struct k_sem *sem, unsigned int initial_count,
-			      unsigned int limit)
+            unsigned int limit)
 {
-	ble_npl_sem_init(sem, initial_count);
+  ble_npl_sem_init(sem, initial_count);
 }
 
 static inline int k_sem_take(struct k_sem *sem, int32_t timeout)
 {
-	uint32_t ticks;
+  uint32_t ticks;
 
-	ble_npl_time_ms_to_ticks(timeout, &ticks);
-	return - ble_npl_sem_pend(sem,  ticks);
+  ble_npl_time_ms_to_ticks(timeout, &ticks);
+  return - ble_npl_sem_pend(sem,  ticks);
 }
 
 static inline void k_sem_give(struct k_sem *sem)
 {
-	ble_npl_sem_release(sem);
+  ble_npl_sem_release(sem);
 }
 
 static inline void k_sem_reset(struct k_sem *sem)
 {
-	ble_npl_sem_init(sem, 0);
+  ble_npl_sem_init(sem, 0);
 }
 /* Helpers to access the storage array, since we don't have access to its
  * type at this point anymore.
@@ -593,11 +593,11 @@ static inline void k_sem_reset(struct k_sem *sem)
 
 static inline int net_buf_id(struct os_mbuf *buf)
 {
-	struct os_mbuf_pool *pool = buf->om_omp;
-	uint8_t *pool_start = (uint8_t *)pool->omp_pool->mp_membuf_addr;
-	uint8_t *buf_ptr = (uint8_t *)buf;
+  struct os_mbuf_pool *pool = buf->om_omp;
+  uint8_t *pool_start = (uint8_t *)pool->omp_pool->mp_membuf_addr;
+  uint8_t *buf_ptr = (uint8_t *)buf;
 
-	return (buf_ptr - pool_start) / BUF_SIZE(pool);
+  return (buf_ptr - pool_start) / BUF_SIZE(pool);
 }
 
 /* XXX: We should not use os_mbuf_pkthdr chains to represent a list of
@@ -613,9 +613,9 @@ struct os_mbuf *net_buf_slist_peek_next(struct os_mbuf *buf);
 struct os_mbuf *net_buf_slist_get(struct net_buf_slist_t *list);
 void net_buf_slist_put(struct net_buf_slist_t *list, struct os_mbuf *buf);
 void net_buf_slist_remove(struct net_buf_slist_t *list, struct os_mbuf *prev,
-			  struct os_mbuf *cur);
+        struct os_mbuf *cur);
 void net_buf_slist_merge_slist(struct net_buf_slist_t *list,
-			       struct net_buf_slist_t *list_to_append);
+             struct net_buf_slist_t *list_to_append);
 #define NET_BUF_SLIST_FOR_EACH_NODE(head, var) STAILQ_FOREACH(var, head, omp_next)
 
 #if MYNEWT_VAL(BLE_MESH_SETTINGS)
@@ -623,7 +623,7 @@ void net_buf_slist_merge_slist(struct net_buf_slist_t *list,
 #define settings_load conf_load
 int settings_bytes_from_str(char *val_str, void *vp, int *len);
 char *settings_str_from_bytes(const void *vp, int vp_len,
-			      char *buf, int buf_len);
+            char *buf, int buf_len);
 
 #define snprintk snprintf
 #define BT_SETTINGS_SIZE(in_size) ((((((in_size) - 1) / 3) * 4) + 4) + 1)
@@ -634,7 +634,7 @@ char *settings_str_from_bytes(const void *vp, int vp_len,
 static inline int
 settings_load(void)
 {
-	return 0;
+  return 0;
 }
 
 #endif /* MYNEWT_VAL(MYNEWT_VAL_BLE_MESH_SETTINGS) */
@@ -652,31 +652,31 @@ struct k_mem_slab {
      */
     uint32_t num_blocks; /** number of memory blocks available for allocation */
     size_t block_size; /** size of single block */
-	/**
+  /**
      * buffer for blocks - must be alligned to N-byte, where N is a power of 2.
      * Minimal size of buffer is num_blocks * block_size
      */
     char *buffer;
-	char *free_list; /** list of free memory blocks */
-	uint32_t num_used; /** count of used memory blocks */
+  char *free_list; /** list of free memory blocks */
+  uint32_t num_used; /** count of used memory blocks */
 };
 
 struct k_mem_block_id {
-	uint32_t pool : 8;
-	uint32_t level : 4;
-	uint32_t block : 20;
+  uint32_t pool : 8;
+  uint32_t level : 4;
+  uint32_t block : 20;
 };
 
 struct k_mem_block {
-	void *data;
-	struct k_mem_block_id id;
+  void *data;
+  struct k_mem_block_id id;
 };
 
 extern void k_mem_slab_free(struct k_mem_slab *slab, void **mem);
 extern int k_mem_slab_alloc(struct k_mem_slab *slab, void **mem);
 static inline uint32_t k_mem_slab_num_free_get(struct k_mem_slab *slab)
 {
-	return slab->num_blocks - slab->num_used;
+  return slab->num_blocks - slab->num_used;
 }
 
 int create_free_list(struct k_mem_slab *slab);
